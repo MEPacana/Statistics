@@ -9,6 +9,7 @@ public class Stratified extends JPanel{
     public Stratified(){
        //JFrame.setDefaultLookAndFeelDecorated(true);
         //using Grid Bag type layout for more control
+        add(this);
         this.setLayout( new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
 

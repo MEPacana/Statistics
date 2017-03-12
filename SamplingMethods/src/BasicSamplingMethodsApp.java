@@ -1,5 +1,5 @@
 /**
- * Created by MikePacs on 2/21/2017.
+ * Created by Michael Pacana on 2/21/2017.
  */
 import java.awt.event.ActionListener;
 import java.awt.*;
@@ -31,7 +31,7 @@ public class BasicSamplingMethodsApp extends JFrame{
         title.setFont(new Font("Century Gothic",Font.BOLD,30));
 
 /////////////////////////////////////// S I M P L E      R A N D O M ////////////////////////////////////////////////////////////////////////////
-
+        //initializing the simple random panel with its components
         simpRandSampButton = new JButton("Simple Random Samping");
         simpRandSampButton.addActionListener(new myActionListener());
 
@@ -54,7 +54,7 @@ public class BasicSamplingMethodsApp extends JFrame{
         home1.addActionListener(new myActionListener());
         simRandDataDispPanel.add(home1,gc);
 ////////////////////////////////////////////////// S Y S T E M A T I C///////////////////////////////////////////////////////////////////////////////////
-
+        //initializing the systematic panel with its components
         sysSampButton = new JButton("Systematic Sampling");
         sysSampButton.addActionListener(new myActionListener());
 
@@ -77,7 +77,7 @@ public class BasicSamplingMethodsApp extends JFrame{
         home2.addActionListener(new myActionListener());
         sysDataDispPanel.add(home2,gc);
 /////////////////////////////////////////////////// S T R A T I F I E D /////////////////////////////////////////////////////////////////////////////////////////////
-        
+        //initializing the stratified panel with its components
         stratSampButton = new JButton("Stratified Sampling");
         stratSampButton.addActionListener(new myActionListener());
         
@@ -136,7 +136,10 @@ public class BasicSamplingMethodsApp extends JFrame{
         basePanel.add(sysPanel,"sysPanel");
         basePanel.add(sysDataPanel,"sysDataPanel");
         basePanel.add(sysDataDispPanel,"sysDataDispPanel");
-        
+
+        basePanel.add(stratPanel,"stratPanel");
+        basePanel.add(stratDataPanel,"stratDataPanel");
+        basePanel.add(stratDataDispPanel,"stratDataDispPanel");
 
         cl.show(basePanel,"1");
         add(basePanel);
@@ -161,11 +164,16 @@ public class BasicSamplingMethodsApp extends JFrame{
                         cl.show(basePanel, "simRandDataPanel");
                 }else if (e.getSource() == simRandGetData && simRandDataPanel.check(data)) {
                     data = simRandDataPanel.getData(data);
-                    data = data.process();
+                    data.process();
                     simRandDataDispPanel.display(data);
                     cl.show(basePanel,"simRandDataDispPanel");
                 } else if (e.getSource() == home1) {
-                  cl.show(basePanel,"mainpanel");
+                    data.clear();
+                    simRandPanel.clear();
+                    simRandPanel.clear();
+                    simRandDataPanel.clear();
+                    simRandDataDispPanel.clear();
+                    cl.show(basePanel,"mainpanel");
                 }
                 ///////////////////////////////////////////////////////////////////
                 if (e.getSource() == sysSampButton) {
@@ -176,11 +184,36 @@ public class BasicSamplingMethodsApp extends JFrame{
                     cl.show(basePanel, "sysDataPanel");
                 }else if (e.getSource() == sysGetData && sysDataPanel.check(data)) {
                     data = sysDataPanel.getData(data);
-                    data = data.process();
+                    data.process();
                     sysDataDispPanel.display(data);
                     cl.show(basePanel,"sysDataDispPanel");
+                }else if (e.getSource() == home2) {
+                    cl.show(basePanel,"mainpanel");
+                    data.clear();
+                    sysPanel.clear();
+                    sysPanel.clear();
+                    sysDataPanel.clear();
+                    sysDataDispPanel.clear();
+                }////////////////////////////////////////////////////////
+                if (e.getSource() == stratSampButton) {
+                    //create new class that extend JPanel
+                    cl.show(basePanel,"stratPanel");
+                }else if (e.getSource() == stratGetInitParam && stratPanel.check()) {
+                    data = stratPanel.getData();
+                    data = stratPanel.getData();
+                    cl.show(basePanel, "stratDataPanel");
+                }else if (e.getSource() == stratGetData && stratDataPanel.check(data)) {
+                    data = stratDataPanel.getData(data);
+                    data.process();
+                    stratDataDispPanel.display(data);
+                    cl.show(basePanel,"stratDataDispPanel");
                 }else if (e.getSource() == home3) {
                     cl.show(basePanel,"mainpanel");
+                    data.clear();
+                    stratPanel.clear();
+                    stratPanel.clear();
+                    stratDataPanel.clear();
+                    stratDataDispPanel.clear();
                 }
             }
         }

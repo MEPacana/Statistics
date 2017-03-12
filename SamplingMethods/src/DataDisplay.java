@@ -1,5 +1,5 @@
 /**
- * Created by Michael Pacana on 2/23/2017.
+ * Created by Michael Pacana & Noah Silvioon 2/23/2017.
  */
 import javax.swing.*;
 import java.awt.*;

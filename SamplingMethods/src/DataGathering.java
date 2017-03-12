@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 public class DataGathering extends JPanel{
     private JTextArea dataArea;
-    private int type;//1 - Simple Random 2 - Systematic Sampling 3 - Stratified
+    private int type;//1 - Simple Random 2 - Systematic Sampling 3- Stratified
     private JLabel title;
     private JScrollPane scroll;
     private JLabel popSizeLabel;

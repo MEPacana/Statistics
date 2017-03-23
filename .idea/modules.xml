@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SamplingMethods/SamplingMethods.iml" filepath="$PROJECT_DIR$/SamplingMethods/SamplingMethods.iml" />
       <module fileurl="file://$PROJECT_DIR$/Statistics.iml" filepath="$PROJECT_DIR$/Statistics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Sum&amp;PresData/Sum&amp;PresData.iml" filepath="$PROJECT_DIR$/Sum&amp;PresData/Sum&amp;PresData.iml" />
+      <module fileurl="file://$PROJECT_DIR$/practice/practice.iml" filepath="$PROJECT_DIR$/practice/practice.iml" />
     </modules>
   </component>
 </project>

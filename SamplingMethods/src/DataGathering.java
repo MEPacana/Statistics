@@ -103,6 +103,7 @@ public class DataGathering extends JPanel{
         data.setData(dataStrArr);
         return data;
     }
+
     public void clear (){
         dataArea.setText("");
     }

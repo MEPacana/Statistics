@@ -42,15 +42,6 @@ public class DataDisplay extends JPanel {
     public void display(Data data){
         if(data.getSamplingType() == 3){
             int temp = 1;
-           /* double finalSampleSize = (double)data.getSampleSize()*data.getPopSize()/100;
-            if(finalSampleSize % 1 == 0){
-                temp = 0;
-            }*//*
-            double alfred = (((double)(data.getSampleSize()*data.getPopSize()))/100);
-            System.out.println("pota"+alfred);
-            if(alfred %1 ==0){
-                temp =0;
-            }*/
             String currentStrata="";
             dataArea.append(data.displayAll() + "\n\n");
             for (int i = 0,strataNum = 1; i < data.alfred + temp; i++) {

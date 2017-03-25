@@ -3,6 +3,8 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Objects;
+
 /**
  * Created by Michael Pacana and Noah Silvio on 3/19/2017.
  */
@@ -11,13 +13,16 @@ public class SumPresData_1 extends JFrame {
     private JPanel mainPanel = new JPanel();// mainPanel for Switch
 
     private JLabel title; // mainPanel title
-    private JButton ctgButt, nmrlButt, quitButt, getData;// mainPanel buttons
-    private CardLayout cl = new CardLayout();//Layout to change screens
+    private JButton ctgButt, nmrlButt, quitButt,
+            getTableInfo, getRawTableInfo,
+            collapseOpt, showGraphOpt;// mainPanel buttons
+    public CardLayout cl = new CardLayout();//Layout to change screens
 
     private DataGathering_2 dataGathering = new DataGathering_2();
     Data data;
-    private TableData_3 tableData = new TableData_3();
-
+    private TableData_4 tableData = new TableData_4();
+    private TableDataRaw_3 tableDataRaw = new TableDataRaw_3();
+    private JPanel tableDataPanel = new JPanel();
     private SumPresData_1(){
         Container cp = getContentPane();
 
@@ -49,14 +54,34 @@ public class SumPresData_1 extends JFrame {
         gc.gridy = 4;
         mainPanel.add(new JLabel(""),gc);
 
+        collapseOpt = new JButton("Collapse");
+        collapseOpt.addActionListener(new myActionListener());
+        showGraphOpt = new JButton("Next");
+        showGraphOpt.addActionListener(new myActionListener());
+        gc.gridy = gc.gridx= 0;
+        tableDataPanel.add(collapseOpt,gc);
+        gc.gridx = 1;
+        tableDataPanel.add(showGraphOpt,gc);
+        gc.gridx = 0;
+        gc.gridy = 4;
+        tableData.add(tableDataPanel,gc);
+
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        getData = new JButton("Show Table");
-        getData.addActionListener(new myActionListener());
-        dataGathering.add(getData,gc);
+
+        getRawTableInfo = new JButton("Show Raw Data");
+        getRawTableInfo.addActionListener(new myActionListener());
+        dataGathering.add(getRawTableInfo,gc);
+
+        gc.gridy = 2;
+        getTableInfo = new JButton("Show Table");
+        getTableInfo.addActionListener(new myActionListener());
+        tableDataRaw.add(getTableInfo,gc);
 
         basePanel.setLayout(cl);//to switch between Panels
         basePanel.add(mainPanel,"mainPanel");
         basePanel.add(dataGathering,"dataGathering");
+        basePanel.add(tableDataRaw,"tableDataRaw");
         basePanel.add(tableData,"tableData");
 
         cl.show(basePanel,"mainPanel");
@@ -81,13 +106,36 @@ public class SumPresData_1 extends JFrame {
                     dataGathering.setNumericDataType(true); // data is numerical
                     cl.show(basePanel,"dataGathering");
                 }
-                else if(e.getSource() == getData){
+                else if(e.getSource() == getRawTableInfo){
                     if(dataGathering.checkData()){// checks if input follows chosen category
-                        System.out.println("From here");
                         data = dataGathering.getData();
-                        System.out.println("To here");
+                        System.out.println("title is"+ data.getBriefTitle());
+                        tableDataRaw.updateData(data);
+                        cl.show(basePanel,"tableDataRaw");
+                    }
+                }
+                else if(e.getSource() == getTableInfo){
+                    if(dataGathering.checkData()){// checks if input follows chosen category
+                        data = dataGathering.getData();
                         tableData.updateData(data);
                         cl.show(basePanel,"tableData");
+                    }
+                }
+                else if(e.getSource() == collapseOpt){
+                    //TODO Noah Collapse this shit
+                }
+                else if(e.getSource() == showGraphOpt){
+                    Object[] options = {"Yes",
+                            "No"};
+                    int n = JOptionPane.showOptionDialog(new JFrame(),
+                            "Would you like the Graph to be shown?",
+                            "Graph",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            options,null);
+                    if(n == 0){
+                        //Todo histogram
                     }
                 }
             }

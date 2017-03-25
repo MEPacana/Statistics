@@ -60,8 +60,6 @@ public class DataGathering_2 extends JPanel{
 
         String briefTitleStr = briefTitleTxtField.getText(); // storing input to temp
         String dataStrArr[] = dataTxtArea.getText().split("\\n");
-
-        System.out.println(briefTitleStr+"\n");
         Data data = new Data(dataStrArr, briefTitleStr,isNumericDataType);
         if(isNumericDataType()){
             data.processNumericalData();
@@ -76,7 +74,6 @@ public class DataGathering_2 extends JPanel{
         String dataStrArr[] = dataTxtArea.getText().split("\\n");
 
         if(briefTitleStr.length() == 0 || dataTxtArea.getText().equals("")){ //if title or data is empty
-            System.out.println("Brief Title and length: "+briefTitleStr+" "+dataStrArr.length);//TODO limit brief title
             JOptionPane.showMessageDialog(this,
                     "Input is empty",
                     "Input error",
@@ -109,7 +106,11 @@ public class DataGathering_2 extends JPanel{
     {
         for (char c : str.toCharArray())
         {
-            if (!Character.isDigit(c)) return false;
+            if (!Character.isDigit(c)) {
+                if(Character.compare(c,new Character('.'))!= 0){
+                    return false;
+                }
+            }
         }
         return true;
     }

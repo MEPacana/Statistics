@@ -7,47 +7,58 @@ public class Data {
     private String briefTitle;
     private boolean isNumericDataType; // true = numerical, false = categorical
     private String[][] addtlData;
+    private int rowNum;
     public Data() {
         data = new String[]{"0","1"};
         briefTitle = "adasd";
         isNumericDataType = false;
         addtlData = new String[][]{{"0","1"},{"1","0"}};
+        rowNum = 2;
     }
-
     public Data(String[] data, String briefTitle,boolean isNumericDataType) {
         this.data = data;
         this.briefTitle = briefTitle;
         this.isNumericDataType = isNumericDataType;
         if(isNumericDataType){
             processNumericalData();
+            rowNum = 7;
         }else{
             processCategoricalData();
+            rowNum = 2;
         }
+    }
+    public int getRow(){
+        return rowNum;
     }
     public void processNumericalData(){//TODO Noah edit this
-        addtlData = new String[6][data.length];
+        int numOfClasses,range,classWidth;
+        double tempDouble;
+        tempDouble = 1 + (3.322 * Math.log10(data.length));/*
+        System.out.println(Math.log10(data.length));
+        System.out.println((Math.log10(data.length)*3.322));*/
+        if(tempDouble%1 !=0){tempDouble++;}
+        numOfClasses =(int)(tempDouble);
+        range = findRange();
+
+        classWidth = Math.round(range / numOfClasses);/*
+        System.out.println("class size is"+numOfClasses);*/
+        addtlData = new String[data.length][6];
+
         for(int i =0 ; i <data.length; i++){
-            addtlData[0][i] = "1 - 20";
-            addtlData[1][i] = "0.5 - 19.5";
-            addtlData[2][i] = "1%";//I think ang 3rd kay ang actual data
-            addtlData[3][i] = "1";
-            addtlData[4][i] = "1%";
-            addtlData[5][i] = "1%";
+            addtlData[i][0] = "1 - 20";
+            addtlData[i][1] = "0.5 - 19.5";
+            addtlData[i][2] = "1%";//I think ang 3rd kay ang actual data
+            addtlData[i][3] = "1";
+            addtlData[i][4] = "1%";
+            addtlData[i][5] = "1%";
         }
-        for(int i =0 ; i <data.length; i++){
-            System.out.println("potato"+addtlData[0][i]+"\n");
-        }
-        System.out.println("info length"+addtlData.length);
     }
+
     public void processCategoricalData(){//TODO Noah edit this
-        addtlData = new String[1][data.length];
+        addtlData = new String[data.length][1];
         for(int i =0 ; i <data.length; i++){
-            addtlData[0][i] = "20%";
+            addtlData[i][0] = "20%";
         }
-        for(int i =0 ; i <data.length; i++){
-            System.out.println("potato"+addtlData[0][i]+"\n");
-        }
-        System.out.println("info length"+addtlData.length);
     }
     public boolean getIsNumericDataType(){
         return isNumericDataType;
@@ -57,6 +68,18 @@ public class Data {
         return addtlData;
     }
 
+    public int findRange(){
+        int min, max,temp;
+        min = max = Integer.parseInt(data[0]);
+        for(int i = 0 ; i < data.length;i++){
+            if((temp = Integer.parseInt(data[i]))< min){
+                min = temp;
+            }else if((temp = Integer.parseInt(data[i]))> max){
+                max = temp;
+            }
+        }
+        return max - min;
+    }
     public void setAddtlData(String[][] addtlData) {
         this.addtlData = addtlData;
     }

@@ -4,16 +4,19 @@ import java.awt.*;
 /**
  * Created by Michael Pacana & Noah Silvio on 3/22/2017.
  */
-public class TableData_3 extends JPanel {
+public class TableData_4 extends JPanel {
     JTable table = new JTable();
     DefaultTableModel model = new DefaultTableModel();
+    Object[] columnNames;
+    Object[][] tableData;
     Data data;
     JLabel title;
-    public TableData_3(){
+    public TableData_4(){
         this.setLayout(new GridBagLayout());
+        table.setModel(model);
+
         GridBagConstraints gc = new GridBagConstraints();
         title = new JLabel("123");
-        table.setModel(model);
         table.setPreferredScrollableViewportSize(new Dimension(515,125));
         table.setFillsViewportHeight(true);
 
@@ -28,24 +31,32 @@ public class TableData_3 extends JPanel {
 
     public void updateData(Data data){
         this.data = data;
-        Object[] columnNames;
-        Object[][] tableData;
+        tableData = new Object[data.getData().length][data.getRow()];
+        table.setModel(model);
         title.setText(data.getBriefTitle());
         title.setFont(new Font("Century Gothic",Font.BOLD,30));
+
         if(data.getIsNumericDataType()){
             columnNames = new Object[]{"CL","TRUE CL","MIDPOINTS","FREQ","%","CF","C%"};
             for(int i = 0; i < data.getData().length;i++) {
-                model.addRow(new Object[]{data.getAddtlData()[0][i],data.getAddtlData()[1][i],
-                        data.getAddtlData()[2][i], data.getData(), data.getAddtlData()[3][i],
-                        data.getAddtlData()[4][i],data.getAddtlData()[5][i]});
+                tableData[i][0] = data.getAddtlData()[i][0];
+                tableData[i][1] = data.getAddtlData()[i][1];
+                tableData[i][2] = data.getAddtlData()[i][2];
+                tableData[i][3] = data.getData()[i];
+                tableData[i][4] = data.getAddtlData()[i][3];
+                tableData[i][5] = data.getAddtlData()[i][4];
+                tableData[i][6] = data.getAddtlData()[i][5];
             }
         }else{
             columnNames = new Object[]{"VALUE LABELS(sorted)","PERCENTAGE(based on 'n'*)"};
             for(int i = 0; i < data.getData().length;i++) {
-                Object[] temp = {data.getData()[i],data.getAddtlData()[0][i]};
-                model.addRow(temp);
+                tableData[i][0]  = data.getData()[i];
+                tableData[i][1] = data.getAddtlData()[i][0];
             }
         }
         model.setColumnIdentifiers(columnNames);
-    }
+        for(int i = 0;i <data.getData().length;i++) {
+            model.addRow(tableData[i]);
+        }
+        }
 }

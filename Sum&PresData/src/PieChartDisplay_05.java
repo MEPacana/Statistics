@@ -1,3 +1,7 @@
+/**
+ * Created by Michael Pacana and Noah Silvio on 3/26/2017.
+ */
+
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.PieChartBuilder;
 import org.knowm.xchart.SwingWrapper;
@@ -14,16 +18,8 @@ import java.awt.*;
  * <li>ChartBuilderPie
  * <li>Custom series palette
  */
-class PieChart02 implements ExampleChart<PieChart> {
+public class PieChartDisplay_05 implements ExampleChart<PieChart> {
 
-    public static void main(String[] args) {
-
-        ExampleChart<PieChart> exampleChart = new PieChart02();
-        PieChart chart = exampleChart.getChart();
-        new SwingWrapper<PieChart>(chart).displayChart();
-    }
-
-    @Override
     public PieChart getChart() {
 
         // Create Chart
@@ -34,7 +30,7 @@ class PieChart02 implements ExampleChart<PieChart> {
         chart.getStyler().setSeriesColors(sliceColors);
 
         // Series
-        chart.addSeries("Gold", 24);
+        chart.addSeries("Gold", 24.12);
         chart.addSeries("Silver", 21);
         chart.addSeries("Platinum", 39);
         chart.addSeries("Copper", 17);
@@ -43,4 +39,10 @@ class PieChart02 implements ExampleChart<PieChart> {
         return chart;
     }
 
+    public void displayPieChart() {
+
+        ExampleChart<PieChart> exampleChart = new PieChartDisplay_05();
+        PieChart chart = exampleChart.getChart();
+        new SwingWrapper<PieChart>(chart).displayChart();
+    }
 }

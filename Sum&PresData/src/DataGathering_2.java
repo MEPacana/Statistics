@@ -5,44 +5,36 @@ import java.awt.*;
  */
 
 public class DataGathering_2 extends JPanel{
-    private JTextField briefTitleTxtField;
+    private JTextField briefTitleTxtField;//setting up elements
     private JTextArea dataTxtArea;
     private JScrollPane dataScroll;
     private JLabel briefTitleLabel, dataLabel;
     private boolean isNumericDataType;
 
     public DataGathering_2(){
-        this.setLayout(new GridBagLayout());
-
+        this.setLayout(new GridBagLayout());//GridBagLayout for more control
         GridBagConstraints gc = new GridBagConstraints();
 
-        briefTitleLabel = new JLabel("Please enter a brief title for your data");
+        briefTitleLabel = new JLabel("Please enter a brief title for your data");// setting up contents
         dataLabel = new JLabel("Please enter the data");
-
         briefTitleTxtField = new JTextField(50);
-
         dataTxtArea = new JTextArea(5,50 );
         dataScroll = new JScrollPane(dataTxtArea);
         dataScroll.setSize(5,50);
         dataScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        gc.weighty = 1;
+        gc.weighty = 1;//adding contents to panel
         gc.gridy = 0;
         this.add(briefTitleLabel,gc);
-
-
         gc.weighty = 1;
         gc.gridy = 1;
         this.add(briefTitleTxtField,gc);
-
         gc.weighty = 1;
         gc.gridy = 2;
         this.add(dataLabel,gc);
-
         gc.weighty = 0.1;
         gc.gridy = 3;
         this.add(dataScroll,gc);
-
         gc.weighty = 1;
         this.add(new JTextArea(""),gc);
 
@@ -67,6 +59,10 @@ public class DataGathering_2 extends JPanel{
             data.processCategoricalData();
         }
         return data;
+    }
+    public void erase(){
+        dataTxtArea.setText("");
+        briefTitleTxtField.setText("");
     }
 
     public boolean checkData(){

@@ -5,15 +5,16 @@ import java.awt.*;
 /**
  * Created by Michael Pacana and Noah Silvio on 3/24/2017.
  */
+
 public class TableDataRaw_3 extends JPanel{
-    JTable table = new JTable();
+    JTable table = new JTable(); // setting up panel contents
     DefaultTableModel model = new DefaultTableModel();
     Object[][] tableData;
     Data data;
     JLabel title;
+    int tableHeight;
     public TableDataRaw_3(){
-        System.out.println("nisulod diri");
-        this.setLayout(new GridBagLayout());
+        this.setLayout(new GridBagLayout());// GridBagLayout for more control
         table.setModel(model);
 
         GridBagConstraints gc = new GridBagConstraints();
@@ -29,11 +30,15 @@ public class TableDataRaw_3 extends JPanel{
         add(scrollPane, gc);
         setVisible(true);
     }
+    public void erase(){
+        table = new JTable();
+        model = new DefaultTableModel();
+    }
     public void updateData(Data data){
         this.data = data;
         double temp =(double)(data.getData().length)/4;
         System.out.println("temp is "+temp);
-        int tableHeight = (int)(roundUp(temp));
+        tableHeight = (int)(roundUp(temp));
         System.out.println(data.getData().length+"table height"+tableHeight);
         tableData = new Object[tableHeight][4];
         table.setModel(model);

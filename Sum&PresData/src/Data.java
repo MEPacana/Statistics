@@ -1,65 +1,167 @@
-/**
+/*
+*
  * Created by Michael Pacana & Noah Silvio on 3/21/2017.
- */
-import java.util.List;
+*/
+import java.util.Arrays;
+import java.util.Vector;
+import java.util.concurrent.atomic.DoubleAccumulator;
+
 public class Data {
-    private String[] data;
+    private String[] rawData;
     private String briefTitle;
     private boolean isNumericDataType; // true = numerical, false = categorical
     private String[][] addtlData;
     private int rowNum;
+    //TableValues for Numerical Data
+    private Vector<Integer> frequency, cFrequency;
+    private Vector<Double> lowerClassLimit, upperClassLimit, trueLowerClassLimit, trueUpperClassLimit, midpoints, classPercentage, cClassPercentage;
+    //TableValues for Categorical Data
+    private Vector<String> categories;
+    private Vector<Integer> categoryCount;
+    private Vector<Double>  categoryPercentage;
+
+
+    int numberOfClasses, classWidth;
+    double range;
+
     public Data() {
-        data = new String[]{"0","1"};
+        rawData = new String[]{"0","1"};
         briefTitle = "adasd";
         isNumericDataType = false;
         addtlData = new String[][]{{"0","1"},{"1","0"}};
         rowNum = 2;
     }
-    public Data(String[] data, String briefTitle,boolean isNumericDataType) {
-        this.data = data;
+    public Data(String[] rawData, String briefTitle, boolean isNumericDataType) {
+        //for Numerical Data
+        lowerClassLimit = new Vector<>();
+        upperClassLimit = new Vector<>();
+        frequency =  new Vector<>();
+        cFrequency = new Vector<>();
+        classPercentage = new Vector<>();
+        cClassPercentage = new Vector<>();
+
+        trueLowerClassLimit = new Vector<>();
+        trueUpperClassLimit = new Vector<>();
+        midpoints = new Vector<>();
+
+        //for Categorical Data
+        categories = new Vector<>();
+        categoryCount = new Vector<>();
+        categoryPercentage = new Vector<>();
+
+        //for both data
+        this.rawData = rawData;
         this.briefTitle = briefTitle;
         this.isNumericDataType = isNumericDataType;
+
         if(isNumericDataType){
-            processNumericalData();
             rowNum = 7;
         }else{
-            processCategoricalData();
             rowNum = 2;
         }
     }
-    public int getRow(){
-        return rowNum;
+
+    public Vector<Double> getMidpoints(){
+        return midpoints;
     }
-    public void processNumericalData(){//TODO Noah edit this
-        int numOfClasses,range,classWidth;
-        double tempDouble;
-        tempDouble = 1 + (3.322 * Math.log10(data.length));/*
-        System.out.println(Math.log10(data.length));
-        System.out.println((Math.log10(data.length)*3.322));*/
-        if(tempDouble%1 !=0){tempDouble++;}
-        numOfClasses =(int)(tempDouble);
+
+
+    public int getNumberOfClasses() {
+        return numberOfClasses;
+    }
+
+    public int getClassWidth() {
+        return classWidth;
+    }
+
+    public double getRange() {
+        return range;
+    }
+
+    public void processNumericalData(){
+        //fundamental values:
+        //calculating the values of the three important numbers
+        numberOfClasses = (int)Math.ceil(1 + (3.322 * Math.log10((double) rawData.length)));
         range = findRange();
+        System.out.println("Range: " + range);
+        classWidth = (int)Math.ceil(range/(double)numberOfClasses);
 
-        classWidth = Math.round(range / numOfClasses);/*
-        System.out.println("class size is"+numOfClasses);*/
-        addtlData = new String[data.length][6];
+        //finding the values for all the table values & initialising frequency, cFrequency, classPercentage, and cClassPercentage
+        Double tempVarForClassLimits = findMin();
+        for(int i = 0; i < numberOfClasses; i++) {
+            lowerClassLimit.addElement(tempVarForClassLimits);
+            upperClassLimit.addElement(tempVarForClassLimits + classWidth - 1);
+            trueLowerClassLimit.addElement(lowerClassLimit.elementAt(i) - 0.5);
+            trueUpperClassLimit.addElement(upperClassLimit.elementAt(i) + 0.5);
+            midpoints.addElement((trueLowerClassLimit.elementAt(i) + trueUpperClassLimit.elementAt(i))/2);
+            frequency.addElement(0);
+            tempVarForClassLimits += classWidth;
+        }
 
-        for(int i =0 ; i <data.length; i++){
-            addtlData[i][0] = "1 - 20";
-            addtlData[i][1] = "0.5 - 19.5";
-            addtlData[i][2] = "1%";//I think ang 3rd kay ang actual data
-            addtlData[i][3] = "1";
-            addtlData[i][4] = "1%";
-            addtlData[i][5] = "1%";
+        //tallying for each class
+        for (String aRawData : rawData) {
+            for (int j = 0; j < lowerClassLimit.size(); j++) {
+                if (Double.parseDouble(aRawData) >= trueLowerClassLimit.elementAt(j) && Double.parseDouble(aRawData) < trueUpperClassLimit.elementAt(j)) {
+                    frequency.set(j, frequency.elementAt(j) + 1);
+                    break;
+                }
+            }
+        }
+
+        //finding the percentage & cFrequency
+        Integer currentCFrequency = 0;
+        Double currentCClassPercentage = 0.0;
+        for(int i = 0; i < lowerClassLimit.size(); i++) {
+            classPercentage.addElement(frequency.elementAt(i).doubleValue()/(double)rawData.length*100);
+
+            currentCFrequency += frequency.elementAt(i);
+            cFrequency.addElement(currentCFrequency);
+
+            currentCClassPercentage += classPercentage.elementAt(i);
+            cClassPercentage.addElement(currentCClassPercentage);
+        }
+
+        //testing
+        for(int i = 0; i < lowerClassLimit.size(); i++ ) {
+            System.out.println(lowerClassLimit.elementAt(i) + "-" + upperClassLimit.elementAt(i) + "  |  " + trueLowerClassLimit.elementAt(i) + "-" + trueUpperClassLimit.elementAt(i) + "  |  " + midpoints.elementAt(i) + "  |  " + frequency.elementAt(i) + "  |  " + cFrequency.elementAt(i) + "  |  " + classPercentage.elementAt(i) + "  |  " + cClassPercentage.elementAt(i)) ;
         }
     }
 
-    public void processCategoricalData(){//TODO Noah edit this
-        addtlData = new String[data.length][1];
-        for(int i =0 ; i <data.length; i++){
-            addtlData[i][0] = "20%";
+    public void processCategoricalData(){
+        //These vectors are the storage for processed rawData:
+
+        //used for keeping track for the current index in Vector<Integer> categoryCount
+        int sampleSize;
+
+        sampleSize = rawData.length;
+
+        Arrays.sort(rawData, String.CASE_INSENSITIVE_ORDER);
+
+        /* adds the rawData elements to categories. similar elements are not added
+         * to categories but categoryCount is changed
+         */
+        for(int i = 0; i < rawData.length; i++){
+            System.out.println("i = " + i + "; current rawData: " + rawData [i]);
+            //rawData[i] can just be compared with the last element of categories bc rawData is sorted
+            if(categories.contains(rawData[i])){
+                //add 1 to categoryCount[currentCategoryCountIndex]
+                categoryCount.set(categories.indexOf(rawData[i]), categoryCount.elementAt(categories.indexOf(rawData[i])) + 1);
+            } else {
+                //add a new category to vector
+                categories.addElement(rawData[i]);
+
+                //add a new counter for the new category
+                categoryCount.addElement(1);
+            }
+        }
+
+        //this part is for calculating the percentage of each category
+        for(int i = 0; i < categoryCount.size(); i++) {
+            //this is basically count/total size * 100
+            categoryPercentage.addElement(Double.valueOf(categoryCount.elementAt(i).toString())/sampleSize*100);
         }
     }
+
     public boolean getIsNumericDataType(){
         return isNumericDataType;
     }
@@ -68,35 +170,76 @@ public class Data {
         return addtlData;
     }
 
-    public int findRange(){
-        int min, max,temp;
-        min = max = Integer.parseInt(data[0]);
-        for(int i = 0 ; i < data.length;i++){
-            if((temp = Integer.parseInt(data[i]))< min){
+    //TODO This function assumes that the values in rawData[] are all integers. Double is also possible
+    public double findMin(){
+        double temp, min = Double.parseDouble(rawData[0]);
+        for(int i = 0; i < rawData.length; i++) {
+            temp = Double.parseDouble(rawData[i]);
+            if(min > temp) {
                 min = temp;
-            }else if((temp = Integer.parseInt(data[i]))> max){
+            }
+        }
+        return min;
+    }
+
+    public double findMax(){
+        double temp, max = Double.parseDouble(rawData[0]);
+        for(int i = 0; i < rawData.length; i++) {
+            temp = Integer.parseInt(rawData[i]);
+            if(max < temp) {
                 max = temp;
             }
         }
-        return max - min;
-    }
-    public void setAddtlData(String[][] addtlData) {
-        this.addtlData = addtlData;
+        return max;
     }
 
-    public String[] getData() {
-        return data;
+    public double findRange(){
+        return findMax() - findMin();
     }
 
-    public void setData(String[] data) {
-        this.data = data;
+    public String[] getRawData() {
+        return rawData;
     }
 
     public String getBriefTitle() {
         return briefTitle;
     }
 
-    public void setBriefTitle(String briefTitle) {
-        this.briefTitle = briefTitle;
+    public String getCategoryItem(int index) {
+        return categories.elementAt(index);
     }
+
+    public int getCategoriesLength(){ return categories.size(); }
+
+    public String getCategoryPercentage(int index) { return categoryPercentage.elementAt(index).toString() + " %"; }
+
+    public double getDoubleCategoryPercentage(int index) { return categoryPercentage.elementAt(index); }
+
+    public String getLowerClassLimitItem(int i) { return lowerClassLimit.elementAt(i).toString(); }
+
+    public String getUpperClassLimitItem(int i) { return upperClassLimit.elementAt(i).toString(); }
+
+    public String getTrueLowerClassLimitItem(int i) { return trueLowerClassLimit.elementAt(i).toString(); }
+
+    public String getTrueUpperClassLimitItem(int i) { return trueUpperClassLimit.elementAt(i).toString(); }
+
+    public String getMidpointItem(int i) { return midpoints.elementAt(i).toString(); }
+
+    public String getFrequencyItem(int i) { return frequency.elementAt(i).toString(); }
+
+    public Vector<Integer> getFrequency() { return frequency; }
+
+    public String getCFrequencyItem(int i) { return cFrequency.elementAt(i).toString(); }
+
+    public String getClassPercentageItem(int i) { return classPercentage.elementAt(i).toString(); }
+
+    public String getCClassPercentageItem(int i) { return cClassPercentage.elementAt(i).toString(); }
+
+    public int getClassLength() { return lowerClassLimit.size(); }
+
+    public String[] getData() {
+        return rawData;
+    }
+
+
 }

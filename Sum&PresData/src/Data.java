@@ -83,7 +83,7 @@ public class Data {
         //calculating the values of the three important numbers
         numberOfClasses = (int)Math.ceil(1 + (3.322 * Math.log10((double) rawData.length)));
         range = findRange();
-        System.out.println("Range: " + range);
+        //System.out.println("Range: " + range);
         classWidth = (int)Math.ceil(range/(double)numberOfClasses);
 
         //finding the values for all the table values & initialising frequency, cFrequency, classPercentage, and cClassPercentage
@@ -123,7 +123,7 @@ public class Data {
 
         //testing
         for(int i = 0; i < lowerClassLimit.size(); i++ ) {
-            System.out.println(lowerClassLimit.elementAt(i) + "-" + upperClassLimit.elementAt(i) + "  |  " + trueLowerClassLimit.elementAt(i) + "-" + trueUpperClassLimit.elementAt(i) + "  |  " + midpoints.elementAt(i) + "  |  " + frequency.elementAt(i) + "  |  " + cFrequency.elementAt(i) + "  |  " + classPercentage.elementAt(i) + "  |  " + cClassPercentage.elementAt(i)) ;
+            //System.out.println(lowerClassLimit.elementAt(i) + "-" + upperClassLimit.elementAt(i) + "  |  " + trueLowerClassLimit.elementAt(i) + "-" + trueUpperClassLimit.elementAt(i) + "  |  " + midpoints.elementAt(i) + "  |  " + frequency.elementAt(i) + "  |  " + cFrequency.elementAt(i) + "  |  " + classPercentage.elementAt(i) + "  |  " + cClassPercentage.elementAt(i)) ;
         }
     }
 
@@ -141,7 +141,7 @@ public class Data {
          * to categories but categoryCount is changed
          */
         for(int i = 0; i < rawData.length; i++){
-            System.out.println("i = " + i + "; current rawData: " + rawData [i]);
+            //System.out.println("i = " + i + "; current rawData: " + rawData [i]);
             //rawData[i] can just be compared with the last element of categories bc rawData is sorted
             if(categories.contains(rawData[i])){
                 //add 1 to categoryCount[currentCategoryCountIndex]

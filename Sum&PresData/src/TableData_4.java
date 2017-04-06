@@ -94,8 +94,7 @@ public class TableData_4 extends JPanel {
         setVisible(true);
     }
     public void erase(){
-        table = new JTable();
-        model = new DefaultTableModel();
+        model.setRowCount(0);
     }
     public void updateData(Data data){
         this.data = data;

@@ -14,6 +14,9 @@ public class ChartDisplay_05 extends JPanel {
     private Data data = new Data();
     private JLabel title;
     JPanel pnlChart;
+    PieChart dataPieChart;
+    CategoryChart dataCategoryChart;
+    int dataPieChartlength,dataCategoryChartLength;
     private boolean hasProcessed = false;
     public ChartDisplay_05(){
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -34,32 +37,19 @@ public class ChartDisplay_05 extends JPanel {
 
     }
     public void getNumericData( Data data){
-     /*   // Create Chart
-        CategoryChart chart = new CategoryChartBuilder().width(800).height(600).title(data.getBriefTitle()).xAxisTitle("x Axis Data").yAxisTitle("Y Axis Data").build();
 
-
-        // Customize Chart
-        chart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNW);
-        chart.getStyler().setAvailableSpaceFill(.96);
-        chart.getStyler().setOverlapped(true);
-
-        // Series
-        Histogram histogram1 = new Histogram(getGaussianData(data), data.getClassLength());// data.findMin(), data.findMax());
-        chart.addSeries("histogram 1", histogram1.getxAxisData(), histogram1.getyAxisData());
-        // Create Chart*/
-        CategoryChart chart = new CategoryChartBuilder().width(800).height(600).title("Score Histogram").xAxisTitle("Score").yAxisTitle("Number").build();
-
-        JPanel pnlChart = new XChartPanel(chart);
+        dataCategoryChart = new CategoryChartBuilder().width(800).height(600).title("Score Histogram").xAxisTitle("Score").yAxisTitle("Number").build();
+        JPanel pnlChart = new XChartPanel(dataCategoryChart);
         pnlChart.setSize(100,100);
         GridBagConstraints gc = new GridBagConstraints();
         gc.gridx = gc.gridy = 0;
         this.add(pnlChart,gc);
         // Customize Chart
-        chart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNW);
-        chart.getStyler().setHasAnnotations(true);
+        dataCategoryChart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNW);
+        dataCategoryChart.getStyler().setHasAnnotations(true);
 
         // Series
-        chart.addSeries(data.getBriefTitle(), data.getMidpoints(), data.getFrequency());
+        dataCategoryChart.addSeries(data.getBriefTitle(), data.getMidpoints(), data.getFrequency());
     }
 
     private java.util.List<Double> getGaussianData(Data data) {
@@ -72,11 +62,23 @@ public class ChartDisplay_05 extends JPanel {
         System.out.println("out");
         return listData;
     }
+    public void erase(){
+        if(!data.getIsNumericDataType()) {
+            for (int i = 0; i < dataPieChartlength; i++) {
+                dataPieChart.removeSeries(data.getCategoryItem(i));
+            }
+        }else{
+
+        }
+    }
     public void getCategoricalData(Data data){
-        PieChart chart = new PieChartBuilder().width(800).height(600).title(data.getBriefTitle()).build();
+        this.data = data;
+        dataPieChartlength = data.getCategoriesLength();
+        System.out.println("Nisulod sa get Categorical");
+        dataPieChart = new PieChartBuilder().width(800).height(600).title(data.getBriefTitle()).build();
         Random rand = new Random();
 
-        JPanel pnlChart = new XChartPanel(chart);
+        JPanel pnlChart = new XChartPanel(dataPieChart);
         pnlChart.setSize(100,100);
         GridBagConstraints gc = new GridBagConstraints();
         gc.gridx = gc.gridy = 0;
@@ -92,11 +94,11 @@ public class ChartDisplay_05 extends JPanel {
             sliceColors[i] = new Color(r, g, b);
             sliceColors[i].brighter();
         }
-        chart.getStyler().setSeriesColors(sliceColors);
+        dataPieChart.getStyler().setSeriesColors(sliceColors);
 
         // Series
         for (int i = 0; i < data.getCategoriesLength(); i++) {
-            chart.addSeries(data.getCategoryItem(i), data.getDoubleCategoryPercentage(i));
+            dataPieChart.addSeries(data.getCategoryItem(i), data.getDoubleCategoryPercentage(i));
         }
     }
 }

@@ -122,6 +122,10 @@ public class SumPresData_1 extends JFrame {
                 else if(e.getSource() == getRawTableInfo){
                     if(dataGathering.checkData()){// checks if input follows chosen category
                         data = dataGathering.getData();
+                        System.out.println("it got new data");
+                        for(int i=0; i< data.getCategoriesLength();i++){
+                            System.out.println(data.getData()[i]);
+                        }
                         System.out.println("title is"+ data.getBriefTitle());
                         tableDataRaw.updateData(data);
                         cl.show(basePanel,"tableDataRaw");
@@ -167,6 +171,7 @@ public class SumPresData_1 extends JFrame {
                     dataGathering.erase();
                     tableDataRaw.erase();
                     tableData.erase();
+                    chartDisplay.erase();
                     cl.show(basePanel,"mainPanel");
                 }
             }

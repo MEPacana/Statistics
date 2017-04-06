@@ -31,18 +31,16 @@ public class TableDataRaw_3 extends JPanel{
         setVisible(true);
     }
     public void erase(){
-        table = new JTable();
-        model = new DefaultTableModel();
+        //table = new JTable();
+        //model = new DefaultTableModel();
+        model.setRowCount(0);
     }
     public void updateData(Data data){
         this.data = data;
         double temp =(double)(data.getData().length)/4;
-        System.out.println("temp is "+temp);
         tableHeight = (int)(roundUp(temp));
-        System.out.println(data.getData().length+"table height"+tableHeight);
         tableData = new Object[tableHeight][4];
         table.setModel(model);
-        System.out.println("inside "+data.getBriefTitle());
         title.setText("Raw Data: "+data.getBriefTitle());
         title.setFont(new Font("Century Gothic",Font.BOLD,30));
 
@@ -51,7 +49,6 @@ public class TableDataRaw_3 extends JPanel{
                 j = 0;
                 ++inc;
             }
-            System.out.println(inc+" "+j+" "+i+" ");
             tableData[inc][j]  = data.getData()[i];
         }
         model.setColumnIdentifiers(new Object[]{"","","",""});
@@ -60,7 +57,6 @@ public class TableDataRaw_3 extends JPanel{
         }
     }
     public double roundUp(double number){
-        System.out.println("the number i "+ number);
         if(number%1 != 0 ){
             number++;
         }

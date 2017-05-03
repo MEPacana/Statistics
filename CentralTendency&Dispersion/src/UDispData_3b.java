@@ -11,10 +11,8 @@ public class UDispData_3b extends JPanel{
     private int ctdSearched;
     private JScrollPane scroll;
 
-    DefaultTableModel model = new DefaultTableModel();
-    Object[][] tableData;
-
     Data data;
+
     public UDispData_3b(){
         this.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();

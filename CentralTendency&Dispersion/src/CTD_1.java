@@ -15,14 +15,23 @@ public class CTD_1 extends JFrame{
     private UDispData_3b uDispPanel = new UDispData_3b();
     private UChoiceData_3c uChoicePanel = new UChoiceData_3c();
     private UResults_3d uResultsPanel = new UResults_3d();
-    JPanel tempPanel = new JPanel();
-    JPanel ResultsRedoPanel = new JPanel();
+    private JPanel tempPanel = new JPanel();
+    private JPanel ResultsRedoPanel = new JPanel();
+    private JPanel gEditContinue = new JPanel();
+
+    private GGthrData_4a gGthrPanel = new GGthrData_4a();
+    private GDispData_4b gDispPanel = new GDispData_4b();
+    private GChoiceData_4c gChoicePanel = new GChoiceData_4c();
+    private GResults_4d gResultsPanel = new GResults_4d();
 
     private JButton ungrpdB, grpdB,
             udispB,
             uCont, uEdit,
             uMeanB, uMedianB, uModeB, quitB, allB,
             inpIntpn, execRun;
+
+    private JButton gDisp,
+        gDone, gEdit, gContinue;
 
 
     private CardLayout cl = new CardLayout();
@@ -123,12 +132,47 @@ public class CTD_1 extends JFrame{
         gc.weighty = 1;
         uResultsPanel.add(ResultsRedoPanel,gc);
 
+
+        gDisp = new JButton("Display");
+        gDisp.addActionListener(new myActionListener());
+        gc.gridx = 0;
+        gc.gridy = 5;
+        gGthrPanel.add(gDisp,gc);
+
+
         //addding class panels to card layout
         switchPanel.add(mainPanel,"mainPanel_cl");
         switchPanel.add(uDataPanel,"uDataPanel_cl");
         switchPanel.add(uDispPanel,"uDispPanel_cl");
         switchPanel.add(uChoicePanel,"uChoicePanel_cl");
         switchPanel.add(uResultsPanel,"uResultsPanel_cl");
+
+        switchPanel.add(gGthrPanel,"gGthrPanel_cl");
+        switchPanel.add(gDispPanel,"gDispPanel_cl");
+        
+        gDone = new JButton("Done");
+        gDone.addActionListener(new myActionListener());
+
+        gEdit = new JButton("Edit");
+        gEdit.addActionListener(new myActionListener());
+
+        gContinue = new JButton("Continue");
+        gContinue.addActionListener(new myActionListener());
+
+        gc.gridx = 0;
+        gc.gridy = 3;
+        gDispPanel.add(gDone,gc);
+
+        gc.gridy = gc.gridx = 0;
+        gEditContinue.add(gEdit,gc);
+        gc.gridx = 1;
+        gEditContinue.add(gContinue,gc);
+
+        gc.gridx = 0;
+        gc.gridy = 4;
+        gDispPanel.add(gEditContinue,gc);
+
+        gEditContinue.setVisible(false);
 
         cl.show(switchPanel, "mainPanel_cl");
         this.add(switchPanel);
@@ -178,8 +222,28 @@ public class CTD_1 extends JFrame{
                 if (balik.getSelectedIndex() == 0) {
                     cl.show(switchPanel, "uChoicePanel_cl");
                 } else {
-                    cl.show(switchPanel, "mainPanel_cl");
+                    cl.show(switchPanel, "gGthrPanel_cl");
                 }
+            }else if(e.getSource() == grpdB){
+                cl.show(switchPanel,"gGthrPanel_cl");
+            }else if(e.getSource() == gDisp){
+                data = gGthrPanel.getData();
+                gDispPanel.init(data);
+                cl.show(switchPanel,"gDispPanel_cl");
+            }else if(e.getSource() == gDone){
+                gEditContinue.setVisible(true);
+                gDone.setVisible(false);
+                gDispPanel.doneIsPressed();
+            }else if(e.getSource() == gEdit){
+                    gEditContinue.setVisible(false);
+                    gDone.setVisible(true);
+                    gDispPanel.editIsPressed();
+            } else if(e.getSource() == gEdit){
+                    gEditContinue.setVisible(false);
+                    gDone.setVisible(true);
+                    gDispPanel.editIsPressed();
+            } else if(e.getSource() == gContinue){
+                    data = gDispPanel.getData();
             }
         }
     }

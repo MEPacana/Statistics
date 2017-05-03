@@ -5,61 +5,76 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 
-public class UGthrData_3a extends JPanel{
-    private JTextField desFld;
-    private JTextArea dataAr;
+public class GGthrData_4a extends JPanel{
+    private JTextField desFld,numIntFld;
     JLabel desLbl, dataLbl;
     private int ctdSearched;
-    private JScrollPane scroll;
     String[] dTypeChoice = {"Integer","Float"};
     private JComboBox dataType;
     Data data;
-    public UGthrData_3a(){
+
+    JPanel temp = new JPanel();
+    String[]  sIntervals = {"Close-Ended","Open-Ended"};
+    private JComboBox cIntervals;
+    public GGthrData_4a(){
         this.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
 
         desLbl = new JLabel("Please enter a short description");
-        dataLbl = new JLabel("Please enter the data");
+        dataLbl = new JLabel("Number of Class Intervals:");
         desLbl.setFont(new Font("Century Gothic",Font.BOLD,20));
-        dataLbl.setFont(new Font("Century Gothic",Font.BOLD,20));
+        dataLbl.setFont(new Font("Century Gothic",Font.BOLD,15));
 
         desFld = new JTextField(40);
-        dataAr = new JTextArea(8,40);
-        scroll = new JScrollPane(dataAr);
-        scroll.setSize(10,40);
-        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        numIntFld = new JTextField(20);
 
+        temp.setLayout(new GridBagLayout());
+        gc.gridx = gc.gridy = 0;
+        temp.add(dataLbl,gc);
+        gc.gridx = 1;
+        temp.add(numIntFld,gc);
         gc.weightx = gc.weighty = 1;
 
         gc.gridx = gc.gridy = 0;
         this.add(desLbl,gc);
+
         gc.gridy++;
         this.add(desFld,gc);
+
         gc.gridy++;
-        this.add(dataLbl,gc);
-        gc.gridy++;
-        this.add(scroll,gc);
-        gc.gridy = 2;
-        gc.gridx =1;
+        this.add(temp,gc);
+
+        cIntervals = new JComboBox(sIntervals);
         dataType = new JComboBox(dTypeChoice);
+
+        gc.gridy++;
         this.add(dataType,gc);
+
+        gc.gridy++;
+        this.add(cIntervals,gc);
         this.setVisible(true);
     }
     public void erase(){
         desFld.setText("");
-        dataAr.setText("");
     }
 
     //gets data stored in info above
     public Data getData(){
         Data data = new Data();
-        //TODO check if empty
         data.setShrtDesc(desFld.getText());
-        data.setData(dataAr.getText().split("\\n"));
-        //TODO no checks yet
+        if(dataType.getSelectedIndex() == 1){
+            data.setFloat(false);
+        }else{
+            data.setFloat(true);
+        }if(cIntervals.getSelectedIndex() == 1){
+            data.setOpenEnded(false);
+        }else{
+            data.setOpenEnded(true);
+        }
+        data.setClassIntervals(Integer.parseInt(numIntFld.getText()));
+
         return data;
     }
-
     // to know what to search 1- Mean 2- Median 3- Mode
     public void setCTDSearched(int i){ ctdSearched = i; }
 }

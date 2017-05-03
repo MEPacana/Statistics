@@ -13,6 +13,7 @@ public class DataGathering extends JPanel{
         this.type = type;
         this.setLayout(new GridBagLayout());
 
+
         GridBagConstraints gc = new GridBagConstraints();
 
         title = new JLabel();
@@ -98,8 +99,6 @@ public class DataGathering extends JPanel{
         //TODO waht if empty
         String[] dataStrArr = dataArea.getText().split("\\n");
         for( int i = 0; i < dataStrArr.length;i++)
-            System.out.println(dataStrArr[i]);
-
         data.setData(dataStrArr);
         return data;
     }

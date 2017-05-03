@@ -19,10 +19,20 @@ public class Data {
     private Vector<String> categories;
     private Vector<Integer> categoryCount;
     private Vector<Double>  categoryPercentage;
+    private Integer totalFreq;
+    private Double totalPercent;
+
+    public Integer getTotalFreq() {
+        return totalFreq;
+    }
+
+    public Double getTotalPercent() {
+        return totalPercent;
+    }
 
 
-    int numberOfClasses, classWidth;
-    double range;
+    double classWidth;
+    double range, numberOfClasses;
 
     public Data() {
         rawData = new String[]{"0","1"};
@@ -53,6 +63,8 @@ public class Data {
         this.rawData = rawData;
         this.briefTitle = briefTitle;
         this.isNumericDataType = isNumericDataType;
+        this.totalPercent = new Double(0);
+        this.totalFreq = new Integer(0);
 
         if(isNumericDataType){
             rowNum = 7;
@@ -65,37 +77,27 @@ public class Data {
         return midpoints;
     }
 
-
-    public int getNumberOfClasses() {
-        return numberOfClasses;
-    }
-
-    public int getClassWidth() {
-        return classWidth;
-    }
-
-    public double getRange() {
-        return range;
-    }
-
     public void processNumericalData(){
         //fundamental values:
         //calculating the values of the three important numbers
-        numberOfClasses = (int)Math.ceil(1 + (3.322 * Math.log10((double) rawData.length)));
+        numberOfClasses = Math.ceil(1 + (3.322*Math.log10((double) rawData.length)));
         range = findRange();
+        System.out.println(range);
         //System.out.println("Range: " + range);
-        classWidth = (int)Math.ceil(range/(double)numberOfClasses);
+        classWidth = Math.ceil((double)range/(double)numberOfClasses);
 
         //finding the values for all the table values & initialising frequency, cFrequency, classPercentage, and cClassPercentage
+        Double num = new Double(0.5);
         Double tempVarForClassLimits = findMin();
         for(int i = 0; i < numberOfClasses; i++) {
             lowerClassLimit.addElement(tempVarForClassLimits);
-            upperClassLimit.addElement(tempVarForClassLimits + classWidth - 1);
-            trueLowerClassLimit.addElement(lowerClassLimit.elementAt(i) - 0.5);
-            trueUpperClassLimit.addElement(upperClassLimit.elementAt(i) + 0.5);
+            upperClassLimit.addElement(tempVarForClassLimits + classWidth);
+            trueLowerClassLimit.addElement(lowerClassLimit.elementAt(i) - num);
+            trueUpperClassLimit.addElement(upperClassLimit.elementAt(i) + num);
             midpoints.addElement((trueLowerClassLimit.elementAt(i) + trueUpperClassLimit.elementAt(i))/2);
             frequency.addElement(0);
-            tempVarForClassLimits += classWidth;
+            System.out.println("i=" + i + "; " + lowerClassLimit.lastElement());
+            tempVarForClassLimits += (classWidth+1);
         }
 
         //tallying for each class
@@ -109,6 +111,7 @@ public class Data {
         }
 
         //finding the percentage & cFrequency
+        //finding the percentage & cFrequency
         Integer currentCFrequency = 0;
         Double currentCClassPercentage = 0.0;
         for(int i = 0; i < lowerClassLimit.size(); i++) {
@@ -119,6 +122,9 @@ public class Data {
 
             currentCClassPercentage += classPercentage.elementAt(i);
             cClassPercentage.addElement(currentCClassPercentage);
+
+            totalFreq += frequency.elementAt(i);
+            totalPercent += classPercentage.elementAt(i);
         }
 
         //testing
@@ -141,7 +147,6 @@ public class Data {
          * to categories but categoryCount is changed
          */
         for(int i = 0; i < rawData.length; i++){
-            //System.out.println("i = " + i + "; current rawData: " + rawData [i]);
             //rawData[i] can just be compared with the last element of categories bc rawData is sorted
             if(categories.contains(rawData[i])){
                 //add 1 to categoryCount[currentCategoryCountIndex]
@@ -159,6 +164,7 @@ public class Data {
         for(int i = 0; i < categoryCount.size(); i++) {
             //this is basically count/total size * 100
             categoryPercentage.addElement(Double.valueOf(categoryCount.elementAt(i).toString())/sampleSize*100);
+            totalPercent += Double.valueOf(categoryCount.elementAt(i).toString())/sampleSize*100;
         }
     }
 
@@ -185,7 +191,7 @@ public class Data {
     public double findMax(){
         double temp, max = Double.parseDouble(rawData[0]);
         for(int i = 0; i < rawData.length; i++) {
-            temp = Integer.parseInt(rawData[i]);
+            temp = Double.parseDouble(rawData[i]);
             if(max < temp) {
                 max = temp;
             }

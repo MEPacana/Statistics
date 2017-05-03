@@ -1,4 +1,3 @@
-
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +15,7 @@ public class SumPresData_1 extends JFrame {
     private JLabel title; // mainPanel title
     private JButton ctgButt, nmrlButt, quitButt,
             getTableInfo,getTableInfo2, getRawTableInfo,
-            collapseOpt, showGraphOpt, homeButt;// mainPanel buttons
+            collapseOpt, collapseOpt2, collapseOpt3, showGraphOpt, homeButt;// mainPanel buttons
     private CardLayout cl = new CardLayout();//Layout to change screens
     private ChartDisplay_05 chartDisplay = new ChartDisplay_05();
 
@@ -55,11 +54,16 @@ public class SumPresData_1 extends JFrame {
         gc.gridy = 4;
         mainPanel.add(new JLabel(""),gc);
 
-        collapseOpt = new JButton("Collapse");//setting up options for TableData_4
+        collapseOpt = new JButton("Collapse 1st and last classes");//setting up options for TableData_4
         collapseOpt.addActionListener(new myActionListener());
+        collapseOpt2 = new JButton("Collapse 1st class");
+        collapseOpt2.addActionListener(new myActionListener());
+        collapseOpt3 = new JButton("Collapse last class");
+        collapseOpt3.addActionListener(new myActionListener());
+
         showGraphOpt = new JButton("Show Graph");
         showGraphOpt.addActionListener(new myActionListener());
-        gc.gridx = 1;
+        gc.gridx = 0;
         tableCollapsePanel.add(showGraphOpt, gc);
         gc.gridx = 0;
         gc.gridy = 4;
@@ -140,15 +144,27 @@ public class SumPresData_1 extends JFrame {
                             if(data.getIsNumericDataType()) {
                                 gc.gridy = gc.gridx = 0;
                                 tableCollapsePanel.add(collapseOpt, gc);
+                                tableCollapsePanel.add(collapseOpt2, gc);
+                                tableCollapsePanel.add(collapseOpt3, gc);
                             }
                         }
-                            cl.show(basePanel,"tableData");
+                        cl.show(basePanel,"tableData");
                     }
                 }
                 else if(e.getSource() == collapseOpt){
                   /*  tableData.collapse();
                     cl.show(basePanel,)*/
-                  //TODO Noah Collapse
+                    tableData.collapse(data, 1);
+                }
+                else if(e.getSource() == collapseOpt2){
+                  /*  tableData.collapse();
+                    cl.show(basePanel,)*/
+                    tableData.collapse(data, 2);
+                }
+                else if(e.getSource() == collapseOpt3){
+                  /*  tableData.collapse();
+                    cl.show(basePanel,)*/
+                    tableData.collapse(data, 3);
                 }
                 else if(e.getSource() == showGraphOpt ){
                     Object[] options = {"Yes", //show options whether to show Graph or not
@@ -162,8 +178,13 @@ public class SumPresData_1 extends JFrame {
                             options,null);
                     if(n == 0){
                         chartDisplay.getData(data);
+                        chartDisplay.setNiBack(true);
                         cl.show(basePanel,"chartDisplay");
                     }else{
+                        dataGathering.erase();
+                        tableDataRaw.erase();
+                        tableData.erase();
+                        chartDisplay.erase();
                         cl.show(basePanel,"mainPanel");
                     }
                 }

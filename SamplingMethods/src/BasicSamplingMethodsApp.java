@@ -20,8 +20,6 @@ public class BasicSamplingMethodsApp extends JFrame{
     private Data data;
     public BasicSamplingMethodsApp(){
         //Instead of initializing frame, we extend frame and use this. We use container c to adjust Pane
-        Container cp = getContentPane();
-
         //using Grid Bag type layout for more control
         mainPanel.setLayout( new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();

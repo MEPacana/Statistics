@@ -98,23 +98,24 @@ public class DataGathering_2 extends JPanel{
         return true;
     }
 
-    private static boolean isNumeric(String str)
-    {
-        for (char c : str.toCharArray())
-        {
-            if (!Character.isDigit(c)) {
-                if(Character.compare(c,new Character('.'))!= 0){
-                    return false;
-                }
-            }
+    private static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-        return true;
     }
 
     private static boolean isNotAllLetters(String str) {
-        for(int i = 0; i < str.length(); i++) {
-            if(!(str.charAt(i) >= 'A' && str.charAt(i) <= 'Z' || str.charAt(i) >= 'a' && str.charAt(i) <= 'z'))
-                return true;
+        if(str.length() == 0){
+            return true;
+        }
+        else {
+            for (int i = 0; i < str.length(); i++) {
+                if (!(str.charAt(i) >= 'A' && str.charAt(i) <= 'Z' || str.charAt(i) >= 'a' && str.charAt(i) <= 'z' || str.charAt(i) >= '0' && str.charAt(i) <= '9'))
+                    return true;
+            }
         }
         return false;
     }

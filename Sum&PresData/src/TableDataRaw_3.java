@@ -10,6 +10,7 @@ public class TableDataRaw_3 extends JPanel{
     JTable table = new JTable(); // setting up panel contents
     DefaultTableModel model = new DefaultTableModel();
     Object[][] tableData;
+
     Data data;
     JLabel title;
     int tableHeight;

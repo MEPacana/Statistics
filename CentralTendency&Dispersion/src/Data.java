@@ -23,12 +23,26 @@ public class Data {
 
     public String[] getSolution() {
         String[] solution = new String[]{"solution","solution"};
+        if(unsigned && ctdChoice ==1){
+
+        }else if(unsigned && ctdChoice ==2) {
+
+        }else if(unsigned && ctdChoice ==3){
+            
+        }
         return solution;
     }
+
     public String getAns() {
+        if(unsigned && ctdChoice ==1){
+
+        }else if(unsigned && ctdChoice ==2) {
+
+        }else if(unsigned && ctdChoice ==3){
+
+        }
         return "answer";
     }
-
 
     public void setData(String[] data) {
         this.data = data;

@@ -49,7 +49,7 @@ public class UDispData_3b extends JPanel{
         dataLbl.setText(data.getShrtDesc());
         dataAr.append("DATA:\n");
         for(int i = 0 ; i < data.getData().length; i++){
-            dataAr.append(i+" "+data.getData()[i]+"\n");
+            dataAr.append(i+":     "+data.getData()[i]+"\n");
         }
     }
 

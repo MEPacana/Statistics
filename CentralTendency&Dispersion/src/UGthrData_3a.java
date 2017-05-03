@@ -12,7 +12,6 @@ public class UGthrData_3a extends JPanel{
     private int ctdSearched;
     private JScrollPane scroll;
     String[] dTypeChoice = {"Integer","Float"};
-    private JComboBox dataType;
     Data data;
     public UGthrData_3a(){
         this.setLayout(new GridBagLayout());
@@ -41,8 +40,6 @@ public class UGthrData_3a extends JPanel{
         this.add(scroll,gc);
         gc.gridy = 2;
         gc.gridx =1;
-        dataType = new JComboBox(dTypeChoice);
-        this.add(dataType,gc);
         this.setVisible(true);
     }
     public void erase(){

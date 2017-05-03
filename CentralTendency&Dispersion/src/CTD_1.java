@@ -17,7 +17,10 @@ public class CTD_1 extends JFrame{
     private UResults_3d uResultsPanel = new UResults_3d();
     private JPanel tempPanel = new JPanel();
     private JPanel ResultsRedoPanel = new JPanel();
+    private JPanel gResultsRedoPanel = new JPanel();
     private JPanel gEditContinue = new JPanel();
+
+    private JPanel gMeanMedianModeAll = new JPanel();
 
     private GGthrData_4a gGthrPanel = new GGthrData_4a();
     private GDispData_4b gDispPanel = new GDispData_4b();
@@ -31,12 +34,15 @@ public class CTD_1 extends JFrame{
             inpIntpn, execRun;
 
     private JButton gDisp,
-        gDone, gEdit, gContinue;
-
+        gDone, gEdit, gContinue,
+            gMeanB, gMedianB, gModeB, gAllB,
+            gInpIntpn, gExecRun;
 
     private CardLayout cl = new CardLayout();
     String[] cmboStr = {"same data","new set"};
+
     JComboBox balik = new JComboBox(cmboStr);
+    JComboBox gBalik = new JComboBox(cmboStr);
     Data data;
 
     public CTD_1(){
@@ -141,15 +147,6 @@ public class CTD_1 extends JFrame{
 
 
         //addding class panels to card layout
-        switchPanel.add(mainPanel,"mainPanel_cl");
-        switchPanel.add(uDataPanel,"uDataPanel_cl");
-        switchPanel.add(uDispPanel,"uDispPanel_cl");
-        switchPanel.add(uChoicePanel,"uChoicePanel_cl");
-        switchPanel.add(uResultsPanel,"uResultsPanel_cl");
-
-        switchPanel.add(gGthrPanel,"gGthrPanel_cl");
-        switchPanel.add(gDispPanel,"gDispPanel_cl");
-        
         gDone = new JButton("Done");
         gDone.addActionListener(new myActionListener());
 
@@ -173,6 +170,56 @@ public class CTD_1 extends JFrame{
         gDispPanel.add(gEditContinue,gc);
 
         gEditContinue.setVisible(false);
+
+
+        gMeanB = new JButton("Mean");
+        gMeanB.addActionListener(new myActionListener());
+        gMedianB = new JButton("Median");
+        gMedianB.addActionListener(new myActionListener());
+        gModeB = new JButton("Mode");
+        gModeB.addActionListener(new myActionListener());
+        gAllB = new JButton("All Measures");
+        gAllB.addActionListener(new myActionListener());
+
+        gMeanMedianModeAll.setLayout(new GridBagLayout());
+        gc.gridx = gc.gridy = 0;
+        gMeanMedianModeAll.add(gMeanB,gc);
+        gc.gridx = 1;
+        gMeanMedianModeAll.add(gMedianB,gc);
+        gc.gridx = 2;
+        gMeanMedianModeAll.add(gModeB,gc);
+        gc.gridx =3;
+        gMeanMedianModeAll.add(gAllB,gc);
+
+        gc.gridx = 0;
+        gc.gridy = 3;
+        gChoicePanel.add(gMeanMedianModeAll,gc);
+
+        gInpIntpn = new JButton("Input Interpretation");
+        gInpIntpn.addActionListener(new myActionListener());
+        gc.gridx = 0;
+        gResultsRedoPanel.add(gInpIntpn,gc);
+        gExecRun = new JButton("Exectute another run");
+        gExecRun.addActionListener(new myActionListener());
+        gc.gridx = 1;
+        gResultsRedoPanel.add(gExecRun,gc);
+        gc.gridx = 2;
+        gResultsRedoPanel.add(gBalik,gc);
+        gc.gridx = 0;
+        gc.gridy = 4;
+        gc.weighty = 1;
+        gResultsPanel.add(gResultsRedoPanel,gc);
+
+        switchPanel.add(mainPanel,"mainPanel_cl");
+        switchPanel.add(uDataPanel,"uDataPanel_cl");
+        switchPanel.add(uDispPanel,"uDispPanel_cl");
+        switchPanel.add(uChoicePanel,"uChoicePanel_cl");
+        switchPanel.add(uResultsPanel,"uResultsPanel_cl");
+
+        switchPanel.add(gGthrPanel,"gGthrPanel_cl");
+        switchPanel.add(gDispPanel,"gDispPanel_cl");
+        switchPanel.add(gChoicePanel,"gChoicePanel_cl");
+        switchPanel.add(gResultsPanel, "gResultsPanel_cl");
 
         cl.show(switchPanel, "mainPanel_cl");
         this.add(switchPanel);
@@ -201,8 +248,7 @@ public class CTD_1 extends JFrame{
                     cl.show(switchPanel, "uChoicePanel_cl");
             }else if(e.getSource() == uEdit){
                 cl.show(switchPanel, "uDataPanel_cl");
-            }
-            else if(e.getSource() == uMeanB ||e.getSource() == uMedianB ||
+            }else if(e.getSource() == uMeanB ||e.getSource() == uMedianB ||
                         e.getSource() == uModeB ||e.getSource() == allB) {
                 cl.show(switchPanel, "uResultsPanel_cl");
 
@@ -222,7 +268,7 @@ public class CTD_1 extends JFrame{
                 if (balik.getSelectedIndex() == 0) {
                     cl.show(switchPanel, "uChoicePanel_cl");
                 } else {
-                    cl.show(switchPanel, "gGthrPanel_cl");
+                    cl.show(switchPanel, "mainPanel_cl");
                 }
             }else if(e.getSource() == grpdB){
                 cl.show(switchPanel,"gGthrPanel_cl");
@@ -238,12 +284,33 @@ public class CTD_1 extends JFrame{
                     gEditContinue.setVisible(false);
                     gDone.setVisible(true);
                     gDispPanel.editIsPressed();
-            } else if(e.getSource() == gEdit){
+            }else if(e.getSource() == gEdit){
                     gEditContinue.setVisible(false);
                     gDone.setVisible(true);
                     gDispPanel.editIsPressed();
-            } else if(e.getSource() == gContinue){
+            }else if(e.getSource() == gContinue){
                     data = gDispPanel.getData();
+                    cl.show(switchPanel, "gChoicePanel_cl");
+            }else if(e.getSource() == gMeanB ||e.getSource() == gMedianB ||
+                        e.getSource() == gModeB ||e.getSource() == gAllB) {
+                    cl.show(switchPanel, "gResultsPanel_cl");
+                    if (e.getSource() == gMeanB) {
+                        uDataPanel.setCTDSearched(1);
+                    } else if (e.getSource() == gMedianB) {
+                        uDataPanel.setCTDSearched(2);
+                    } else if (e.getSource() == gModeB) {
+                        uDataPanel.setCTDSearched(3);
+                    } else if (e.getSource() == gAllB) {
+                        uDataPanel.setCTDSearched(4);
+                    }
+            }else if(e.getSource() == inpIntpn){
+                    gResultsPanel.addTextArea();
+            }else if(e.getSource() == execRun){
+                    if (gBalik.getSelectedIndex() == 0) {
+                        cl.show(switchPanel, "gChoicePanel_cl");
+                    } else {
+                        cl.show(switchPanel, "mainPanel_cl");
+                    }
             }
         }
     }

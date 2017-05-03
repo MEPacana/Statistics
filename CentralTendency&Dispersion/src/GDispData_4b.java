@@ -13,8 +13,8 @@ public class GDispData_4b extends JPanel{
 
     private JTable table = new JTable();
     private DefaultTableModel model = new DefaultTableModel();
-    private Data data;
     JScrollPane scroll;
+    private Data data;
     private Object[] columns = {"Upper Class Limit", "Lower Class Limit","Frequencies"};
     public GDispData_4b(){
         this.setLayout(new GridBagLayout());

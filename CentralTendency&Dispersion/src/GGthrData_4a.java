@@ -16,6 +16,7 @@ public class GGthrData_4a extends JPanel{
     JPanel temp = new JPanel();
     String[]  sIntervals = {"Close-Ended","Open-Ended"};
     private JComboBox cIntervals;
+
     public GGthrData_4a(){
         this.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
@@ -72,7 +73,6 @@ public class GGthrData_4a extends JPanel{
             data.setOpenEnded(true);
         }
         data.setClassIntervals(Integer.parseInt(numIntFld.getText()));
-
         return data;
     }
     // to know what to search 1- Mean 2- Median 3- Mode

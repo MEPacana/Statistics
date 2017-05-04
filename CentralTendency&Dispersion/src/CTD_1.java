@@ -43,7 +43,7 @@ public class CTD_1 extends JFrame{
 
     JComboBox balik = new JComboBox(cmboStr);
     JComboBox gBalik = new JComboBox(cmboStr);
-    Data data;
+    Data data = new Data();
 
     public CTD_1(){
         //setting up Panel to switch screens
@@ -237,30 +237,32 @@ public class CTD_1 extends JFrame{
             if(e.getSource() == quitB){
                 dispose();
             }
-            else
-                if( e.getSource() == ungrpdB){
+            else if( e.getSource() == ungrpdB){
+                data.setUngrouped(true);
                 cl.show(switchPanel, "uDataPanel_cl");
             }else if(e.getSource() == udispB) {
-                data = uDataPanel.getData();
-                uDispPanel.init(data);
-                cl.show(switchPanel, "uDispPanel_cl");
+                if(uDataPanel.checkData()) {
+                    data = uDataPanel.init(data);
+                    uDispPanel.init(data);
+                    cl.show(switchPanel, "uDispPanel_cl");
+                }
             }else if( e.getSource() == uCont){
                     cl.show(switchPanel, "uChoicePanel_cl");
             }else if(e.getSource() == uEdit){
                 cl.show(switchPanel, "uDataPanel_cl");
             }else if(e.getSource() == uMeanB ||e.getSource() == uMedianB ||
                         e.getSource() == uModeB ||e.getSource() == allB) {
-                cl.show(switchPanel, "uResultsPanel_cl");
-
                 if (e.getSource() == uMeanB) {
-                    uDataPanel.setCTDSearched(1);
+                    data.setCtdChoice(0);
                 } else if (e.getSource() == uMedianB) {
-                    uDataPanel.setCTDSearched(2);
+                    data.setCtdChoice(1);
                 } else if (e.getSource() == uModeB) {
-                    uDataPanel.setCTDSearched(3);
+                    data.setCtdChoice(2);
                 } else if (e.getSource() == allB) {
-                    uDataPanel.setCTDSearched(4);
+                    data.setCtdChoice(3);
                 }
+                uResultsPanel.init(data);
+                cl.show(switchPanel, "uResultsPanel_cl");
             }else if(e.getSource() == inpIntpn){
                 uResultsPanel.addTextArea();
             }else if(e.getSource() == execRun) {
@@ -269,6 +271,8 @@ public class CTD_1 extends JFrame{
                     cl.show(switchPanel, "uChoicePanel_cl");
                 } else {
                     cl.show(switchPanel, "mainPanel_cl");
+                    uDataPanel.erase();
+                    uDispPanel.erase();
                 }
             }else if(e.getSource() == grpdB){
                 cl.show(switchPanel,"gGthrPanel_cl");
@@ -306,11 +310,11 @@ public class CTD_1 extends JFrame{
             }else if(e.getSource() == inpIntpn){
                     gResultsPanel.addTextArea();
             }else if(e.getSource() == execRun){
-                    if (gBalik.getSelectedIndex() == 0) {
-                        cl.show(switchPanel, "gChoicePanel_cl");
-                    } else {
-                        cl.show(switchPanel, "mainPanel_cl");
-                    }
+                if (gBalik.getSelectedIndex() == 0) {
+                    cl.show(switchPanel, "gChoicePanel_cl");
+                } else {
+                    cl.show(switchPanel, "mainPanel_cl");
+                }
             }
         }
     }

@@ -5,17 +5,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class UChoiceData_3c extends JPanel{
-    private String classTitle = "Descriptive Statistics";
-    JLabel title;
-    JPanel titlePanel;
+    private JLabel title;
+    private JPanel titlePanel;
     public UChoiceData_3c(){
         //setting up main Panel
-        clearData();
         titlePanel = new JPanel();
         this.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
 
-        title = new JLabel(classTitle);
+        title = new JLabel("Descriptive Statistics");
         title.setFont(new Font("Century Gothic",Font.BOLD,30));
 
         gc.gridx = 0;
@@ -28,11 +26,11 @@ public class UChoiceData_3c extends JPanel{
         setVisible(true);
     }
 
-    public void clearData(){
+    public void erase(){
 
     }
 
-    public void setTitle(String text){
-        title.setText(text);
+    public void init(Data data){
+        title.setText(data.getShrtDesc());
     }
 }

@@ -41,11 +41,13 @@ public class UResults_3d extends JPanel{
 
         this.setVisible(true);
     }
+
     public void erase(){
         dataLbl.setText("");
         ans.setText("");
         solution.setText("");
     }
+
     public void addTextArea(){
         System.out.println("nisud diri");
         interpretation.setVisible(true);

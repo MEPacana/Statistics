@@ -48,15 +48,33 @@ public class UGthrData_3a extends JPanel{
     }
 
     //gets data stored in info above
-    public Data getData(){
-        Data data = new Data();
-        //TODO check if empty
+    public Data init(Data data){
+        this.data = data;
         data.setShrtDesc(desFld.getText());
         data.setData(dataAr.getText().split("\\n"));
-        //TODO no checks yet
         return data;
     }
-
+    public boolean checkData(){
+        Data data = new Data();
+        if(desFld.getText().length() == 0){
+            System.out.println("Cannot be blank");
+            return false;
+        }
+        data.setShrtDesc(desFld.getText());
+        String[] tempData = dataAr.getText().split("\\n");
+        try {
+            for (int i = 0; i < tempData.length; i++) {
+                if(tempData[i].length() == 0){
+                    return false;
+                }
+                Double.valueOf(tempData[i]);
+            }
+            return true;
+        }catch(NumberFormatException e){
+            System.out.println("must be a double or int");
+        }
+        return false;
+    }
     // to know what to search 1- Mean 2- Median 3- Mode
     public void setCTDSearched(int i){ ctdSearched = i; }
 }

@@ -129,6 +129,7 @@ public class Data {
             sum += dData[i];
         }
         double ans =  sum / dData.length;
+
         return "The MEAN is "+String.valueOf(ans);
     }
     public String uMedian(){

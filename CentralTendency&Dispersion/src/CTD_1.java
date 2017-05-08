@@ -277,9 +277,11 @@ public class CTD_1 extends JFrame{
             }else if(e.getSource() == grpdB){
                 cl.show(switchPanel,"gGthrPanel_cl");
             }else if(e.getSource() == gDisp){
-                data = gGthrPanel.getData();
-                gDispPanel.init(data);
-                cl.show(switchPanel,"gDispPanel_cl");
+                if(gGthrPanel.checkData()) {
+                    data = gGthrPanel.getData();
+                    gDispPanel.init(data);
+                    cl.show(switchPanel, "gDispPanel_cl");
+                }
             }else if(e.getSource() == gDone){
                 gEditContinue.setVisible(true);
                 gDone.setVisible(false);
@@ -293,28 +295,44 @@ public class CTD_1 extends JFrame{
                     gDone.setVisible(true);
                     gDispPanel.editIsPressed();
             }else if(e.getSource() == gContinue){
+                try {
                     data = gDispPanel.getData();
+                }catch(Exception d){
+                    d.printStackTrace();
+                }
+                    gChoicePanel.init(data);
                     cl.show(switchPanel, "gChoicePanel_cl");
             }else if(e.getSource() == gMeanB ||e.getSource() == gMedianB ||
                         e.getSource() == gModeB ||e.getSource() == gAllB) {
-                    cl.show(switchPanel, "gResultsPanel_cl");
                     if (e.getSource() == gMeanB) {
-                        uDataPanel.setCTDSearched(1);
+                        data.setCtdChoice(0);
                     } else if (e.getSource() == gMedianB) {
-                        uDataPanel.setCTDSearched(2);
+                        data.setCtdChoice(1);
                     } else if (e.getSource() == gModeB) {
-                        uDataPanel.setCTDSearched(3);
+                        data.setCtdChoice(2);
                     } else if (e.getSource() == gAllB) {
-                        uDataPanel.setCTDSearched(4);
+                        data.setCtdChoice(3);
                     }
+                gResultsPanel.init(data);
+                cl.show(switchPanel, "gResultsPanel_cl");
             }else if(e.getSource() == inpIntpn){
-                    gResultsPanel.addTextArea();
+                    uResultsPanel.addTextArea();
             }else if(e.getSource() == execRun){
+                if (gBalik.getSelectedIndex() == 0) {
+                    cl.show(switchPanel, "uChoicePanel_cl");
+                } else {
+                    cl.show(switchPanel, "mainPanel_cl");
+                }
+                uResultsPanel.removeTextArea();
+            }else if(e.getSource() == gInpIntpn){
+                gResultsPanel.addTextArea();
+            }else if(e.getSource() == gExecRun){
                 if (gBalik.getSelectedIndex() == 0) {
                     cl.show(switchPanel, "gChoicePanel_cl");
                 } else {
                     cl.show(switchPanel, "mainPanel_cl");
                 }
+                gResultsPanel.removeTextArea();
             }
         }
     }

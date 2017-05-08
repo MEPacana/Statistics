@@ -7,14 +7,14 @@ import java.util.Vector;
 
 public class GGthrData_4a extends JPanel{
     private JTextField desFld,numIntFld;
-    JLabel desLbl, dataLbl;
+    private JLabel desLbl, dataLbl;
     private int ctdSearched;
-    String[] dTypeChoice = {"Integer","Float"};
+    private String[] dTypeChoice = {"Integer","Float"};
     private JComboBox dataType;
     Data data;
 
     JPanel temp = new JPanel();
-    String[]  sIntervals = {"Close-Ended","Open-Ended"};
+    String[]  sIntervals = {"Close-Ended","Open-Ended First Class Only", "Open-Ended Last Class Only","Open-Ended Both"};
     private JComboBox cIntervals;
 
     public GGthrData_4a(){
@@ -29,6 +29,7 @@ public class GGthrData_4a extends JPanel{
         desFld = new JTextField(40);
         numIntFld = new JTextField(20);
 
+        dataType = new JComboBox(dTypeChoice);
         temp.setLayout(new GridBagLayout());
         gc.gridx = gc.gridy = 0;
         temp.add(dataLbl,gc);
@@ -58,20 +59,30 @@ public class GGthrData_4a extends JPanel{
     public void erase(){
         desFld.setText("");
     }
-
+    public boolean checkData(){
+        if(desFld.getText().length() == 0 || numIntFld.getText().length() == 0){
+            System.out.println("CANNOT BE EMPTY");
+            return false;
+        }
+        try{
+            Integer.parseInt(numIntFld.getText());
+        }catch(NumberFormatException e){
+            System.out.println("MUST BE A NUMBER");
+            return false;
+        }
+        return true;
+    }
     //gets data stored in info above
     public Data getData(){
         Data data = new Data();
         data.setShrtDesc(desFld.getText());
-        if(dataType.getSelectedIndex() == 1){
+        if (dataType.getSelectedIndex() == 1) {
             data.setFloat(false);
-        }else{
+        } else {
             data.setFloat(true);
-        }if(cIntervals.getSelectedIndex() == 1){
-            data.setOpenEnded(false);
-        }else{
-            data.setOpenEnded(true);
         }
+
+        data.setOpentype(cIntervals.getSelectedIndex());
         data.setClassIntervals(Integer.parseInt(numIntFld.getText()));
         return data;
     }

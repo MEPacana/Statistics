@@ -15,7 +15,7 @@ public class GDispData_4b extends JPanel{
     private DefaultTableModel model = new DefaultTableModel();
     JScrollPane scroll;
     private Data data;
-    private Object[] columns = {"Upper Class Limit", "Lower Class Limit","Frequencies"};
+    private Object[] columns = {"Lower Class Limit", "Upper Class Limit","Frequencies"};
     public GDispData_4b(){
         this.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
@@ -72,7 +72,7 @@ public class GDispData_4b extends JPanel{
         desLbl.setVisible(false);
     }
 
-    public Data getData(){
+    public Data getData() throws Exception{
         String[] tempUCL = new  String[table.getRowCount()];
         String[] tempLCL = new  String[table.getRowCount()];
         String[] freq = new  String[table.getRowCount()];
@@ -82,10 +82,28 @@ public class GDispData_4b extends JPanel{
             freq[i] = (String) table.getValueAt(i,2);
         }
         for(int i = 0 ; i < table.getRowCount(); i++){
+            try {
+                Double.valueOf(tempLCL[i]);
+                Double.valueOf(tempUCL[i]);
+                Double.valueOf(freq[i]);
+            } catch (Exception ex) {
+                throw new Exception("Some inputs can't be interpreted as numbers. Please check again (more than one decimal point, non-numeric characters, etc.)");
+            }
+            if(Double.valueOf(tempLCL[i]) < Double.valueOf(tempUCL[i]))
+                throw new Exception("Error in class limits. Check again?");
+            if(i != 0) {
+                if(!tempUCL[i].equals(tempLCL[i-1]) ) {
+                    System.out.println(tempUCL[i] + " vs " + tempLCL[i-1]);
+                    throw new Exception("The lower limit must equal to the upper limit of the class above it. Check again?");
+                } else if (tempUCL[i].equals(tempUCL[i-1]) || tempLCL[i].equals(tempLCL[i-1])) {
+                    System.out.println(tempUCL[i] + " vs " + tempUCL[i-1]);
+                    throw new Exception("A class limit must not equal to the one above it. Check again?");
+                }
+            }
             System.out.println(tempUCL[i]+ " "+tempLCL[i]+ " "+ freq[i]);
         }
-        data.setLowerClassLimits(tempLCL);
-        data.setUpperClassLimits(tempUCL);
+        data.setLowerClassLimits(tempUCL);
+        data.setUpperClassLimits(tempLCL);
         data.setFrequency(freq);
         return data;
     }

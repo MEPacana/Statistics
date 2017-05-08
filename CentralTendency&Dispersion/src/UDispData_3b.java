@@ -52,7 +52,11 @@ public class UDispData_3b extends JPanel{
             if(data.getData() == null){
                 System.out.println("nothing");
             }else {
-                dataAr.append(i + ":     " + data.getData()[i] + "\n");
+                if(data.isFloat()){
+                    dataAr.append((i + 1) + ":     " +  data.getData()[i] + "\n");
+                }else {
+                    dataAr.append((i + 1) + ":     " + data.getData()[i] + "\n");
+                }
             }
         }
     }

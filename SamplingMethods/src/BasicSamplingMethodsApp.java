@@ -7,8 +7,8 @@ import java.awt.event.*;
 import javax.swing.*;
 public class BasicSamplingMethodsApp extends JFrame{
 
-    private JPanel mainPanel = new JPanel();
-    private JPanel basePanel = new JPanel();
+    private JPanel mainPanelSM = new JPanel();
+    private JPanel switchPanel = new JPanel();
     private JButton sysSampButton, simpRandSampButton, stratSampButton, quit,
             simRandGetInitParam, simRandGetData,home1,
             sysGetInitParam, sysGetData,home2,
@@ -17,11 +17,11 @@ public class BasicSamplingMethodsApp extends JFrame{
     private DataGathering simRandDataPanel,sysDataPanel,stratDataPanel;
     private DataDisplay simRandDataDispPanel, sysDataDispPanel, stratDataDispPanel;
     private CardLayout cl = new CardLayout();
-    private Data data;
+    private Data2 data2;
     public BasicSamplingMethodsApp(){
         //Instead of initializing frame, we extend frame and use this. We use container c to adjust Pane
         //using Grid Bag type layout for more control
-        mainPanel.setLayout( new GridBagLayout());
+        mainPanelSM.setLayout( new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
 
         //adding components
@@ -34,7 +34,7 @@ public class BasicSamplingMethodsApp extends JFrame{
         simpRandSampButton.addActionListener(new myActionListener());
 
         simRandPanel = new InitData(1);
-        simRandGetInitParam = new JButton("Continue to Data");
+        simRandGetInitParam = new JButton("Continue to Data2");
         simRandGetInitParam.addActionListener(new myActionListener());
         gc.weighty = 0.3;
         gc.gridy = 5;
@@ -57,7 +57,7 @@ public class BasicSamplingMethodsApp extends JFrame{
         sysSampButton.addActionListener(new myActionListener());
 
         sysPanel = new InitData(2);
-        sysGetInitParam = new JButton("Continue to Data");
+        sysGetInitParam = new JButton("Continue to Data2");
         sysGetInitParam.addActionListener(new myActionListener());
         gc.weighty = 0.3;
         gc.gridy = 5;
@@ -80,7 +80,7 @@ public class BasicSamplingMethodsApp extends JFrame{
         stratSampButton.addActionListener(new myActionListener());
         
         stratPanel = new InitData(3);
-        stratGetInitParam = new JButton("Continue to Data");
+        stratGetInitParam = new JButton("Continue to Data2");
         stratGetInitParam.addActionListener(new myActionListener());
         gc.weighty = 0.3;
         gc.gridy = 5;
@@ -106,41 +106,41 @@ public class BasicSamplingMethodsApp extends JFrame{
         gc.weightx= 1;
         //placement because of gridlayout
         gc.gridx = gc.gridy = 0;
-        mainPanel.add(title,gc);
+        mainPanelSM.add(title,gc);
 
         gc.weighty = 0.2;
         gc.gridx = 0;
         gc.gridy = 1;
-        mainPanel.add(simpRandSampButton,gc);
+        mainPanelSM.add(simpRandSampButton,gc);
 
         gc.gridx = 0;
         gc.gridy = 3;
-        mainPanel.add(sysSampButton,gc);
+        mainPanelSM.add(sysSampButton,gc);
 
         gc.gridx = 0;
         gc.gridy = 4;
-        mainPanel.add(stratSampButton,gc);
+        mainPanelSM.add(stratSampButton,gc);
 
         gc.gridx = 0;
         gc.gridy = 5;
-        mainPanel.add(quit,gc);
+        mainPanelSM.add(quit,gc);
 
-        basePanel.setLayout(cl);
-        basePanel.add(mainPanel,"mainpanel");
-        basePanel.add(simRandPanel,"simRandPanel");
-        basePanel.add(simRandDataPanel,"simRandDataPanel");
-        basePanel.add(simRandDataDispPanel,"simRandDataDispPanel");
+        switchPanel.setLayout(cl);
+        switchPanel.add(mainPanelSM,"mainpanel");
+        switchPanel.add(simRandPanel,"simRandPanel");
+        switchPanel.add(simRandDataPanel,"simRandDataPanel");
+        switchPanel.add(simRandDataDispPanel,"simRandDataDispPanel");
 
-        basePanel.add(sysPanel,"sysPanel");
-        basePanel.add(sysDataPanel,"sysDataPanel");
-        basePanel.add(sysDataDispPanel,"sysDataDispPanel");
+        switchPanel.add(sysPanel,"sysPanel");
+        switchPanel.add(sysDataPanel,"sysDataPanel");
+        switchPanel.add(sysDataDispPanel,"sysDataDispPanel");
 
-        basePanel.add(stratPanel,"stratPanel");
-        basePanel.add(stratDataPanel,"stratDataPanel");
-        basePanel.add(stratDataDispPanel,"stratDataDispPanel");
+        switchPanel.add(stratPanel,"stratPanel");
+        switchPanel.add(stratDataPanel,"stratDataPanel");
+        switchPanel.add(stratDataDispPanel,"stratDataDispPanel");
 
-        cl.show(basePanel,"1");
-        add(basePanel);
+        cl.show(switchPanel,"1");
+        add(switchPanel);
         setTitle("CMSC 105 Lab 1");
         setVisible(true);
         setSize(640,360);
@@ -156,38 +156,38 @@ public class BasicSamplingMethodsApp extends JFrame{
             else {
                 if (e.getSource() == simpRandSampButton) {
                    //create new class that extend JPanel
-                    cl.show(basePanel,"simRandPanel");
+                    cl.show(switchPanel,"simRandPanel");
                 }else if (e.getSource() == simRandGetInitParam && simRandPanel.check()) {
-                        data = simRandPanel.getData();
-                        cl.show(basePanel, "simRandDataPanel");
-                }else if (e.getSource() == simRandGetData && simRandDataPanel.check(data)) {
-                    data = simRandDataPanel.getData(data);
-                    data.process();
-                    simRandDataDispPanel.display(data);
-                    cl.show(basePanel,"simRandDataDispPanel");
+                        data2 = simRandPanel.getData();
+                        cl.show(switchPanel, "simRandDataPanel");
+                }else if (e.getSource() == simRandGetData && simRandDataPanel.check(data2)) {
+                    data2 = simRandDataPanel.getData(data2);
+                    data2.process();
+                    simRandDataDispPanel.display(data2);
+                    cl.show(switchPanel,"simRandDataDispPanel");
                 } else if (e.getSource() == home1) {
-                    data.clear();
+                    data2.clear();
                     simRandPanel.clear();
                     simRandPanel.clear();
                     simRandDataPanel.clear();
                     simRandDataDispPanel.clear();
-                    cl.show(basePanel,"mainpanel");
+                    cl.show(switchPanel,"mainpanel");
                 }
                 ///////////////////////////////////////////////////////////////////
                 if (e.getSource() == sysSampButton) {
                     //create new class that extend JPanel
-                    cl.show(basePanel,"sysPanel");
+                    cl.show(switchPanel,"sysPanel");
                 }else if (e.getSource() == sysGetInitParam && sysPanel.check()) {
-                    data = sysPanel.getData();
-                    cl.show(basePanel, "sysDataPanel");
-                }else if (e.getSource() == sysGetData && sysDataPanel.check(data)) {
-                    data = sysDataPanel.getData(data);
-                    data.process();
-                    sysDataDispPanel.display(data);
-                    cl.show(basePanel,"sysDataDispPanel");
+                    data2 = sysPanel.getData();
+                    cl.show(switchPanel, "sysDataPanel");
+                }else if (e.getSource() == sysGetData && sysDataPanel.check(data2)) {
+                    data2 = sysDataPanel.getData(data2);
+                    data2.process();
+                    sysDataDispPanel.display(data2);
+                    cl.show(switchPanel,"sysDataDispPanel");
                 }else if (e.getSource() == home2) {
-                    cl.show(basePanel,"mainpanel");
-                    data.clear();
+                    cl.show(switchPanel,"mainpanel");
+                    data2.clear();
                     sysPanel.clear();
                     sysPanel.clear();
                     sysDataPanel.clear();
@@ -195,19 +195,19 @@ public class BasicSamplingMethodsApp extends JFrame{
                 }////////////////////////////////////////////////////////
                 if (e.getSource() == stratSampButton) {
                     //create new class that extend JPanel
-                    cl.show(basePanel,"stratPanel");
+                    cl.show(switchPanel,"stratPanel");
                 }else if (e.getSource() == stratGetInitParam && stratPanel.check()) {
-                    data = stratPanel.getData();
-                    data = stratPanel.getData();
-                    cl.show(basePanel, "stratDataPanel");
-                }else if (e.getSource() == stratGetData && stratDataPanel.check(data)) {
-                    data = stratDataPanel.getData(data);
-                    data.process();
-                    stratDataDispPanel.display(data);
-                    cl.show(basePanel,"stratDataDispPanel");
+                    data2 = stratPanel.getData();
+                    data2 = stratPanel.getData();
+                    cl.show(switchPanel, "stratDataPanel");
+                }else if (e.getSource() == stratGetData && stratDataPanel.check(data2)) {
+                    data2 = stratDataPanel.getData(data2);
+                    data2.process();
+                    stratDataDispPanel.display(data2);
+                    cl.show(switchPanel,"stratDataDispPanel");
                 }else if (e.getSource() == home3) {
-                    cl.show(basePanel,"mainpanel");
-                    data.clear();
+                    cl.show(switchPanel,"mainpanel");
+                    data2.clear();
                     stratPanel.clear();
                     stratPanel.clear();
                     stratDataPanel.clear();

@@ -11,7 +11,7 @@ public class GResults_4d extends JPanel{
     private JTextArea ans, solution, interpretation;
     JLabel dataLbl;
     JScrollPane scroll;
-    Data data;
+    Data1 data1;
 
     private JTable table = new JTable();
     private DefaultTableModel model = new DefaultTableModel();
@@ -57,13 +57,13 @@ public class GResults_4d extends JPanel{
         interpretation.setVisible(true);
     }
 
-    public void init(Data data){
+    public void init(Data1 data1){
         erase();
-        this.data = data;
-        dataLbl.setText(data.getShrtDesc());
-        ans.setText(data.getAns());
-        for(int i = 0; i < data.getSolution().length;i++){
-            solution.append(data.getSolution()[i]);
+        this.data1 = data1;
+        dataLbl.setText(data1.getShrtDesc());
+        ans.setText(data1.getAns());
+        for(int i = 0; i < data1.getSolution().length;i++){
+            solution.append(data1.getSolution()[i]);
         }
     }
 }
@@ -73,13 +73,12 @@ public class GResults_4d extends JPanel{
  */
 import javax.swing.*;
 import java.awt.*;
-import java.util.Vector;
 
 public class GResults_4d extends JPanel{
     private JTextArea ans, solution, interpretation;
     JLabel dataLbl;
     JScrollPane scroll;
-    Data data;
+    Data1 data1;
 
     JPanel temp = new JPanel();
     public GResults_4d(){
@@ -136,14 +135,14 @@ public class GResults_4d extends JPanel{
         interpretation.setVisible(false);
     }
 
-    //gets data stored in info above
-    public void init(Data data){
+    //gets data1 stored in info above
+    public void init(Data1 data1){
         erase();
-        this.data = data;
-        dataLbl.setText(data.getShrtDesc());
-        ans.setText(data.getAns());
-        for(int i = 0; i < data.getSolution().length;i++){
-            solution.append(data.getSolution()[i]+ "\n");
+        this.data1 = data1;
+        dataLbl.setText(data1.getShrtDesc());
+        ans.setText(data1.getAns());
+        for(int i = 0; i < data1.getSolution().length; i++){
+            solution.append(data1.getSolution()[i]+ "\n");
         }
     }
 }

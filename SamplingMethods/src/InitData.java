@@ -121,7 +121,7 @@ public class InitData extends JPanel{
         System.out.println(Integer.parseInt(popSize) + " " +Integer.parseInt(popSize));
         return noError;
     }
-    public Data getData(){
+    public Data2 getData(){
         //TODO waht if empty
         System.out.println(popSizeTextField.getText() +
                 " " + sampleSizeTextField.getText() + " " + dataTypeCombo.getSelectedIndex());
@@ -136,7 +136,7 @@ public class InitData extends JPanel{
             sampleSize = Integer.parseInt(sampleSizeTextField.getText());
         }
         System.out.println("Sample size is "+ sampleSize);
-        Data initParam = new Data(type, popsize,sampleSize ,dataType);
+        Data2 initParam = new Data2(type, popsize,sampleSize ,dataType);
         return initParam;
     }
     public void clear(){

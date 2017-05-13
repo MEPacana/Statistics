@@ -4,7 +4,7 @@ import java.util.*;
 /**
  * Created by Michael Ervin Pacana and Noah Silvio on 4/26/2017.
  */
-public class Data {
+public class Data1 {
 
     private String shrtDesc;
     private String[] data;

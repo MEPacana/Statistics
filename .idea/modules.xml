@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CentralTendency&amp;Dispersion/CentralTendency&amp;Dispersion.iml" filepath="$PROJECT_DIR$/CentralTendency&amp;Dispersion/CentralTendency&amp;Dispersion.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FinalMergedAll/FinalMergedAll.iml" filepath="$PROJECT_DIR$/FinalMergedAll/FinalMergedAll.iml" />
       <module fileurl="file://$PROJECT_DIR$/SamplingMethods/SamplingMethods.iml" filepath="$PROJECT_DIR$/SamplingMethods/SamplingMethods.iml" />
       <module fileurl="file://$PROJECT_DIR$/Statistics.iml" filepath="$PROJECT_DIR$/Statistics.iml" />
       <module fileurl="file://$PROJECT_DIR$/Sum&amp;PresData/Sum&amp;PresData.iml" filepath="$PROJECT_DIR$/Sum&amp;PresData/Sum&amp;PresData.iml" />

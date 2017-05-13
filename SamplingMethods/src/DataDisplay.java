@@ -39,29 +39,29 @@ public class DataDisplay extends JPanel {
     public void clear(){
         dataArea.setText("");
     }
-    public void display(Data data){
-        if(data.getSamplingType() == 3){
+    public void display(Data2 data2){
+        if(data2.getSamplingType() == 3){
             int temp = 1;
             String currentStrata="";
-            dataArea.append(data.displayAll() + "\n\n");
-            for (int i = 0,strataNum = 1; i < data.alfred + temp; i++) {
-                System.out.println("Th i is "+i+" "+data.getSample(i));
+            dataArea.append(data2.displayAll() + "\n\n");
+            for (int i = 0, strataNum = 1; i < data2.alfred + temp; i++) {
+                System.out.println("Th i is "+i+" "+ data2.getSample(i));
                 if( i == 0 ){
                     dataArea.append("Strata 1\n");
                     strataNum++;
-                    currentStrata = data.getSample(i);
+                    currentStrata = data2.getSample(i);
                 }
-                else if(currentStrata.compareTo(data.getSample(i))!=0 ){
+                else if(currentStrata.compareTo(data2.getSample(i))!=0 ){
                     dataArea.append("Strata "+strataNum+"\n");
-                    currentStrata = data.getSample(i);
+                    currentStrata = data2.getSample(i);
                     strataNum++;
                 }
-                dataArea.append("Index " + (i + 1) + ": " + data.getSample(i) + "\n");
+                dataArea.append("Index " + (i + 1) + ": " + data2.getSample(i) + "\n");
             }
         }
         else {
-            for (int i = 0; i < data.getSampleSize(); i++)
-                dataArea.append("Index " + (i + 1) + ": " + data.getSample(i) + "\n");
+            for (int i = 0; i < data2.getSampleSize(); i++)
+                dataArea.append("Index " + (i + 1) + ": " + data2.getSample(i) + "\n");
         }
     }
 }

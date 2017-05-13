@@ -4,14 +4,14 @@
 import java.util.Random;
 import java.util.Arrays;
 import java.util.Vector;
-public class Data {
+public class Data2 {
     private int sampleSize, popSize, dataType, samplingType, SIMPLE_RANDOM = 1, SYSTEMATIC_RANDOM = 2, STRATIFIED = 3;
     private String[] population, samples;
     public int alfred;
     private Vector<String> strataPopulation = new Vector <>();
     private Vector<Vector<String> > strataList = new Vector<>();
 
-    public Data (int samplingType,  int popSize,  int sampleSize, int dataType) {
+    public Data2(int samplingType, int popSize, int sampleSize, int dataType) {
         this.samplingType =  samplingType;
         this.dataType = dataType;
         this.popSize = popSize;

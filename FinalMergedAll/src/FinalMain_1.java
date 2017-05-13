@@ -1,12 +1,19 @@
 /**
  * Created by Michael Pacana and Noah Silvio on 4/26/2017.
  */
+import CTD.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CTD_1 extends JFrame{
+public class FinalMain_1 extends JFrame{
+
+    private JPanel finalmainPanel = new JPanel();
+    private JButton finalCTD, finalSM, finalSPD;
+    private JLabel finaltitle = new JLabel("FINAL MP");
+    ////////////////////////////////////////////////// Central Tendency & Dispersion ////////////////////////////////////////////////
     private JPanel switchPanel = new JPanel();
     private MainPanel_2 mainPanel = new MainPanel_2();
 
@@ -27,6 +34,7 @@ public class CTD_1 extends JFrame{
     private GChoiceData_4c gChoicePanel = new GChoiceData_4c();
     private GResults_4d gResultsPanel = new GResults_4d();
 
+
     private JButton ungrpdB, grpdB,
             udispB,
             uCont, uEdit,
@@ -37,25 +45,61 @@ public class CTD_1 extends JFrame{
         gDone, gEdit, gContinue,
             gMeanB, gMedianB, gModeB, gAllB,
             gInpIntpn, gExecRun;
-
-    private CardLayout cl = new CardLayout();
     String[] cmboStr = {"same data1","new set"};
-
+    private CardLayout cl = new CardLayout();
     JComboBox balik = new JComboBox(cmboStr);
     JComboBox gBalik = new JComboBox(cmboStr);
     Data1 data1 = new Data1();
+/////////////////////////////////////////////////////// Sampling Methods ////////////////////////////////////////////////////////////////////
 
-    public CTD_1(){
-        //setting up Panel to switch screens
+/*
+    private JPanel mainPanelSM = new JPanel();
+    private JPanel basePanel = new JPanel();
+    private JButton sysSampButton, simpRandSampButton, stratSampButton, quit,
+            simRandGetInitParam, simRandGetData,home1,
+            sysGetInitParam, sysGetData,home2,
+            stratGetInitParam, stratGetData,home3;
+    private InitData simRandPanel,sysPanel,stratPanel;
+    private DataGathering simRandDataPanel,sysDataPanel,stratDataPanel;
+    private DataDisplay simRandDataDispPanel, sysDataDispPanel, stratDataDispPanel;
+
+    private Data2 data2;
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+
+    public FinalMain_1(){
         GridBagConstraints gc = new GridBagConstraints();
+
         gc.weightx = gc.weighty = 0.5;
+        finalmainPanel.setLayout(new GridBagLayout());
+        finalCTD = new JButton("Central Tendency and Dispersion");
+        finalCTD.addActionListener(new myActionListener());
+
+        finalSM = new JButton("Sampling Methods");
+        finalSM.addActionListener(new myActionListener());
+
+        finalSPD = new JButton("Summary and Presentation of Data");
+        finalSPD.addActionListener(new myActionListener());
+        gc.gridx = 0;
+        gc.gridy =0;
+        finalmainPanel.add(finaltitle,gc);
+        gc.gridy++;
+        finalmainPanel.add(finalCTD,gc);
+        gc.gridy++;
+        finalmainPanel.add(finalSM,gc);
+        gc.gridy++;
+        finalmainPanel.add(finalSPD,gc);
+        finalmainPanel.setVisible(true);
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //setting up Panel to switch screens
+
         switchPanel.setLayout(cl);
 
         //initialize main menu buttons
 
-        ungrpdB = new JButton("Ungrouped Data1");
+        ungrpdB = new JButton("Ungrouped CTD.Data1");
         ungrpdB.addActionListener(new myActionListener());
-        grpdB = new JButton("Grouped Data1");
+        grpdB = new JButton("Grouped CTD.Data1");
         grpdB.addActionListener(new myActionListener());
         quitB = new JButton("Quit");
         quitB.addActionListener(new myActionListener());
@@ -210,6 +254,7 @@ public class CTD_1 extends JFrame{
         gc.weighty = 1;
         gResultsPanel.add(gResultsRedoPanel,gc);
 
+        switchPanel.add(finalmainPanel,"finalmainPanel_fl");
         switchPanel.add(mainPanel,"mainPanel_cl");
         switchPanel.add(uDataPanel,"uDataPanel_cl");
         switchPanel.add(uDispPanel,"uDispPanel_cl");
@@ -221,20 +266,31 @@ public class CTD_1 extends JFrame{
         switchPanel.add(gChoicePanel,"gChoicePanel_cl");
         switchPanel.add(gResultsPanel, "gResultsPanel_cl");
 
-        cl.show(switchPanel, "mainPanel_cl");
+        cl.show(switchPanel, "finalmainPanel_cl");
         this.add(switchPanel);
         this.setTitle("Descriptive Statistics");
         this.setVisible(true);
         this.setSize(640,360);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     public void redraw(){
         this.redraw();
     }
+
     public class myActionListener implements ActionListener{
         public void actionPerformed(ActionEvent e){
-            if(e.getSource() == quitB){
+            if(e.getSource() == finalCTD){
+                System.out.println("nisud");
+                cl.show(switchPanel, "mainPanel_cl");
+            }else if(e.getSource() == finalSM){
+
+            }else if(e.getSource() == finalSPD){
+
+            }
+            else if(e.getSource() == quitB){
                 dispose();
             }
             else if( e.getSource() == ungrpdB){
@@ -339,7 +395,7 @@ public class CTD_1 extends JFrame{
 
     public static void main(String[] args){
         SwingUtilities.invokeLater(new Runnable(){
-            public void run(){ new CTD_1();}
+            public void run(){ new FinalMain_1();}
         });
     }
 }

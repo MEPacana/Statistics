@@ -1,4 +1,4 @@
-/**
+package CTD; /**
  * Created by Michael Pacana and Noah Silvio on 4/26/2017.
  */
 import javax.swing.*;
@@ -17,7 +17,7 @@ public class UDispData_3b extends JPanel{
         GridBagConstraints gc = new GridBagConstraints();
 
         desLbl = new JLabel();
-        dataLbl = new JLabel("Data1");
+        dataLbl = new JLabel("CTD.Data1");
         desLbl.setFont(new Font("Century Gothic",Font.BOLD,30));
         dataLbl.setFont(new Font("Century Gothic",Font.BOLD,30));
 

@@ -1,17 +1,87 @@
+package CTD; /**
+ * Created by Michael Pacana and Noah Silvio on 4/26/2017.
+ *//*
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.util.Vector;
+
+public class CTD.GResults_4d extends JPanel{
+    private JTextArea ans, solution, interpretation;
+    JLabel dataLbl;
+    JScrollPane scroll;
+    CTD.Data1 data1;
+
+    private JTable table = new JTable();
+    private DefaultTableModel model = new DefaultTableModel();
+
+    public CTD.GResults_4d (){
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints gc = new GridBagConstraints();
+
+        dataLbl = new JLabel("");
+        dataLbl.setFont(new Font("Century Gothic",Font.BOLD,20));
+
+        solution = new JTextArea(6,40);
+        ans = new JTextArea(4,40);
+        scroll = new JScrollPane(solution);
+        scroll.setSize(10,40);
+        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        gc.weightx = gc.weighty = 1;
+        gc.gridx = gc.gridy = 0;
+        this.add(dataLbl,gc);
+        gc.gridy++;
+        this.add(ans,gc);
+        gc.gridy++;
+        this.add(scroll,gc);
+
+        gc.gridx = 0;
+        gc.gridy = 5;
+        interpretation = new JTextArea(4,40);
+        this.add(interpretation,gc);
+        interpretation.setVisible(false);
+
+        this.setVisible(true);
+    }
+
+    public void erase(){
+        dataLbl.setText("");
+        ans.setText("");
+        solution.setText("");
+    }
+
+    public void addTextArea(){
+        System.out.println("nisud diri");
+        interpretation.setVisible(true);
+    }
+
+    public void init(CTD.Data1 data1){
+        erase();
+        this.data1 = data1;
+        dataLbl.setText(data1.getShrtDesc());
+        ans.setText(data1.getAns());
+        for(int i = 0; i < data1.getSolution().length;i++){
+            solution.append(data1.getSolution()[i]);
+        }
+    }
+}
+*/
 /**
  * Created by Michael Pacana and Noah Silvio on 4/26/2017.
  */
 import javax.swing.*;
 import java.awt.*;
 
-public class UResults_3d extends JPanel{
+public class GResults_4d extends JPanel{
     private JTextArea ans, solution, interpretation;
     JLabel dataLbl;
     JScrollPane scroll;
     Data1 data1;
 
     JPanel temp = new JPanel();
-    public UResults_3d(){
+    public GResults_4d(){
         this.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
 
@@ -60,6 +130,7 @@ public class UResults_3d extends JPanel{
         System.out.println("nisud diri");
         interpretation.setVisible(true);
     }
+
     public void removeTextArea(){
         interpretation.setVisible(false);
     }

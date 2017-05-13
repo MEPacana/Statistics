@@ -1,4 +1,4 @@
-/**
+package CTD; /**
  * Created by Michael Pacana and Noah Sivlio on 4/26/2017.
  *//*
 
@@ -6,7 +6,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class GChoiceData_4c extends JPanel{
+public class CTD.GChoiceData_4c extends JPanel{
     private String classTitle = "Descriptive Statistics";
     JLabel title;
     JPanel titlePanel;
@@ -17,9 +17,9 @@ public class GChoiceData_4c extends JPanel{
 
     private Object[] columns = {"Upper Class Limit", "Lower Class Limit","Frequencies",
         "Class Marks (xi)","(fixi)","(fixi2)"  };
-    Data1 data1;
+    CTD.Data1 data1;
 
-    public GChoiceData_4c(){
+    public CTD.GChoiceData_4c(){
         //setting up main Panel
         titlePanel = new JPanel();
         this.setLayout(new GridBagLayout());
@@ -52,7 +52,7 @@ public class GChoiceData_4c extends JPanel{
 
     }
 
-    public void init(Data1 data1){
+    public void init(CTD.Data1 data1){
         erase();
         this.data1 = data1;
         model.setRowCount(data1.getFrequency().length+1);//TODO SUM NILA

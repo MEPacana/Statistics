@@ -1,19 +1,21 @@
-/**
+package CTD; /**
  * Created by Michael Pacana and Noah Sivlio on 4/26/2017.
  */
 import javax.swing.*;
 import java.awt.*;
 
-public class UChoiceData_3c extends JPanel{
-    private JLabel title;
-    private JPanel titlePanel;
-    public UChoiceData_3c(){
+public class MainPanel_2 extends JPanel{
+    private String classTitle = "Descriptive Statistics";
+    JLabel title;
+    JPanel titlePanel;
+    public MainPanel_2(){
         //setting up main Panel
+        clearData();
         titlePanel = new JPanel();
         this.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
 
-        title = new JLabel("Descriptive Statistics");
+        title = new JLabel(classTitle);
         title.setFont(new Font("Century Gothic",Font.BOLD,30));
 
         gc.gridx = 0;
@@ -22,15 +24,15 @@ public class UChoiceData_3c extends JPanel{
         gc.weighty = gc.weightx = 1;
         gc.gridy = 0;
         this.add(titlePanel,gc);
-
+        this.add(titlePanel,gc);
         setVisible(true);
     }
 
-    public void erase(){
+    public void clearData(){
 
     }
 
-    public void init(Data1 data1){
-        title.setText(data1.getShrtDesc());
+    public void setTitle(String text){
+        title.setText(text);
     }
 }

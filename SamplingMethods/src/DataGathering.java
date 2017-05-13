@@ -50,13 +50,13 @@ public class DataGathering extends JPanel{
 
         this.setVisible(true);
     }
-    public Boolean check(Data data){
+    public Boolean check(Data2 data2){
         //TODO waht if empty
         Boolean noError= true;
         String[] dataStrArr = dataArea.getText().split("\\n");
-        if(dataStrArr.length < data.getPopSize() ||dataStrArr.length > data.getPopSize()){
+        if(dataStrArr.length < data2.getPopSize() ||dataStrArr.length > data2.getPopSize()){
             JOptionPane.showMessageDialog(this,
-                    "Population size needed is "+data.getPopSize(),
+                    "Population size needed is "+ data2.getPopSize(),
                     "Input Error",
                     JOptionPane.ERROR_MESSAGE);
             return false;
@@ -64,7 +64,7 @@ public class DataGathering extends JPanel{
 
         for (int i = 0; i < dataStrArr.length; i++) {
             if(isNotAllLetters(dataStrArr[i])){
-                if(data.getDataType() == 1){
+                if(data2.getDataType() == 1){
                     JOptionPane.showMessageDialog(this,
                             "Please input letters only please",
                             "Input Error",
@@ -74,18 +74,18 @@ public class DataGathering extends JPanel{
             }
         }
 
-        for(int i = 0, dataType =data.getDataType() ; i < dataStrArr.length; i++ ){
+        for(int i = 0, dataType = data2.getDataType(); i < dataStrArr.length; i++ ){
             if(dataType == 1 && isNumeric(dataStrArr[i]) || dataType == 0 && !(isNumeric(dataStrArr[i]))){
                 if(dataType == 0){
                     JOptionPane.showMessageDialog(this,
-                            "You have chosen numbers as your data type",
+                            "You have chosen numbers as your data2 type",
                             "Input Error",
                             JOptionPane.ERROR_MESSAGE);
                     return false;
                 }
                 else{
                     JOptionPane.showMessageDialog(this,
-                            "You have chosen characters as your data type",
+                            "You have chosen characters as your data2 type",
                             "Input Error",
                             JOptionPane.ERROR_MESSAGE);
                     return false;
@@ -95,12 +95,12 @@ public class DataGathering extends JPanel{
         }
         return noError;
     }
-    public Data getData(Data data){
+    public Data2 getData(Data2 data2){
         //TODO waht if empty
         String[] dataStrArr = dataArea.getText().split("\\n");
         for( int i = 0; i < dataStrArr.length;i++)
-        data.setData(dataStrArr);
-        return data;
+        data2.setData(dataStrArr);
+        return data2;
     }
 
     public void clear (){

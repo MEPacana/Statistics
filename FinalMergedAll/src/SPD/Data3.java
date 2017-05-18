@@ -1,4 +1,4 @@
-/*
+package SPD;/*
 *
  * Created by Michael Pacana & Noah Silvio on 3/21/2017.
 */
@@ -11,10 +11,10 @@ public class Data3 {
     private boolean isNumericDataType; // true = numerical, false = categorical
     private String[][] addtlData;
     private int rowNum;
-    //TableValues for Numerical Data3
+    //TableValues for Numerical SPD.Data3
     private Vector<Integer> frequency, cFrequency;
     private Vector<Double> lowerClassLimit, upperClassLimit, trueLowerClassLimit, trueUpperClassLimit, midpoints, classPercentage, cClassPercentage;
-    //TableValues for Categorical Data3
+    //TableValues for Categorical SPD.Data3
     private Vector<String> categories;
     private Vector<Integer> categoryCount;
     private Vector<Double>  categoryPercentage;
@@ -41,7 +41,7 @@ public class Data3 {
         rowNum = 2;
     }
     public Data3(String[] rawData, String briefTitle, boolean isNumericDataType) {
-        //for Numerical Data3
+        //for Numerical SPD.Data3
         lowerClassLimit = new Vector<>();
         upperClassLimit = new Vector<>();
         frequency =  new Vector<>();
@@ -53,7 +53,7 @@ public class Data3 {
         trueUpperClassLimit = new Vector<>();
         midpoints = new Vector<>();
 
-        //for Categorical Data3
+        //for Categorical SPD.Data3
         categories = new Vector<>();
         categoryCount = new Vector<>();
         categoryPercentage = new Vector<>();

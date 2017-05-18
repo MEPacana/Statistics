@@ -1,3 +1,5 @@
+package SPD;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -42,7 +44,7 @@ public class TableDataRaw_3 extends JPanel{
         tableHeight = (int)(roundUp(temp));
         tableData = new Object[tableHeight][4];
         table.setModel(model);
-        title.setText("Raw Data3: "+data.getBriefTitle());
+        title.setText("Raw Data : "+data.getBriefTitle());
         title.setFont(new Font("Century Gothic",Font.BOLD,30));
 
         for(int i = 0,inc= 0,j=0 ; i < data.getData().length;i++, j++) {

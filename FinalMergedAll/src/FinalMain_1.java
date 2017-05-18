@@ -6,17 +6,22 @@ import SM.Data2;
 import SM.DataDisplay;
 import SM.DataGathering;
 import SM.InitData;
+import SPD.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 public class FinalMain_1 extends JFrame{
 
     private JPanel finalmainPanel = new JPanel();
+    private JPanel finaldescPanel = new JPanel();
     private JButton finalCTD, finalSM, finalSPD;
     private JLabel finaltitle = new JLabel("FINAL MP");
+    private JButton miniSPcontinue;
     ////////////////////////////////////////////////// Central Tendency & Dispersion ////////////////////////////////////////////////
     private JPanel switchPanel = new JPanel();
     private MainPanel_2 mainPanel = new MainPanel_2();
@@ -64,7 +69,6 @@ public class FinalMain_1 extends JFrame{
     private DataDisplay simRandDataDispPanel, sysDataDispPanel, stratDataDispPanel;
     private Data2 data2;
 /////////////////////////////////////////////////////// Summarizing and Presenting Data ///////////////////////////////////////////////////
-private JPanel s3BasePanel = new JPanel();// switching panels
     private JPanel s3MainPanel = new JPanel();// s3MainPanel for Switch
     private JPanel tableCollapsePanel = new JPanel();
     private JPanel tableHomePanel = new JPanel();
@@ -79,12 +83,94 @@ private JPanel s3BasePanel = new JPanel();// switching panels
     private TableData_4 tableData = new TableData_4();
     private TableDataRaw_3 tableDataRaw = new TableDataRaw_3();
 
+    ImageIcon icon = createImageIcon("res/sP.png",
+            "a pretty but meaningless splat");
+
+    protected ImageIcon createImageIcon(String path,
+                                        String description) {
+        java.net.URL imgURL = getClass().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL, description);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
+    }
+    ImageIcon imageIcon = new ImageIcon("res/sP.png"); // load the image to a imageIcon
+    Image image = imageIcon.getImage(); // transform it
+    Image newimg = image.getScaledInstance(10, 10,  java.awt.Image.SCALE_SMOOTH);
+    JButton SPDhome, SPDhome2;
+
+    public ImageIcon scaleImage(ImageIcon the_icon, int w, int h)
+    {
+        int nw = icon.getIconWidth();
+        int nh = icon.getIconHeight();
+
+        if(icon.getIconWidth() > w)
+        {
+            nw = w;
+            nh = (nw * icon.getIconHeight()) / icon.getIconWidth();
+        }
+
+        if(nh > h)
+        {
+            nh = h;
+            nw = (icon.getIconWidth() * nh) / icon.getIconHeight();
+        }
+
+        return new ImageIcon(icon.getImage().getScaledInstance(nw, nh, Image.SCALE_DEFAULT));
+    }
+    JButton finalquitB;
 
     public FinalMain_1(){
         GridBagConstraints gc = new GridBagConstraints();
-
         gc.weightx = gc.weighty = 0.5;
         finalmainPanel.setLayout(new GridBagLayout());
+        finaldescPanel.setLayout(new GridBagLayout());
+        finalmainPanel.setBackground(Color.cyan);
+        finaldescPanel.setBackground(Color.cyan);
+        JPanel combin = new JPanel();
+
+        icon = scaleImage(icon,300,300);
+        JLabel titleMiniSP = new JLabel(icon);
+        titleMiniSP.setSize(new Dimension(1,1));
+
+        JLabel titleMiniSP2 = new JLabel(icon);
+        JLabel descMiniSP = new JLabel(" Mini-SP is a software implementation of basic statistical techniques and methods. ");
+        descMiniSP.setForeground(Color.darkGray);
+        descMiniSP.setForeground(Color.darkGray);
+        descMiniSP.setFont(new Font("Century Gothic",Font.BOLD,18));
+
+        JLabel descMiniSP2 = new JLabel(       "Central Tendency & Dispersion  ~  Sampling Methods  ~  " +
+                "Summarizing & Presenting Data.");
+        descMiniSP2.setForeground(Color.darkGray);
+        descMiniSP2.setFont(new Font("Century Gothic",Font.BOLD,11));
+
+        JLabel progMiniSP = new JLabel("Michael Ervin Pacana . Noah Dominic Silvio");
+        progMiniSP.setForeground(Color.darkGray);
+        progMiniSP.setFont(new Font("Century Gothic",Font.BOLD,8));
+        miniSPcontinue = new JButton("Continue");
+        miniSPcontinue.addActionListener(new myActionListener());
+
+        gc.gridx = gc.gridy = 0;
+        finaldescPanel.add(titleMiniSP,gc);
+        gc.weighty = 5;
+        finaldescPanel.add(new JLabel(""),gc);
+        gc.weighty = 0.01;
+        gc.gridy++;
+        finaldescPanel.add(descMiniSP,gc);
+        gc.weighty = 0.1;
+        gc.gridy++;
+        finaldescPanel.add(descMiniSP2,gc);
+        gc.weighty = 1;
+        gc.gridy++;
+        finaldescPanel.add(progMiniSP,gc);
+        gc.weighty = 3;
+        gc.gridy++;
+        finaldescPanel.add(miniSPcontinue,gc);
+        gc.gridy++;
+        finaldescPanel.add(progMiniSP,gc);
+
         finalCTD = new JButton("Central Tendency and Dispersion");
         finalCTD.addActionListener(new myActionListener());
 
@@ -95,13 +181,18 @@ private JPanel s3BasePanel = new JPanel();// switching panels
         finalSPD.addActionListener(new myActionListener());
         gc.gridx = 0;
         gc.gridy =0;
-        finalmainPanel.add(finaltitle,gc);
+        finalmainPanel.add(titleMiniSP2,gc);
         gc.gridy++;
         finalmainPanel.add(finalCTD,gc);
         gc.gridy++;
         finalmainPanel.add(finalSM,gc);
         gc.gridy++;
         finalmainPanel.add(finalSPD,gc);
+        finalquitB = new JButton("Quit");
+        finalquitB.addActionListener(new myActionListener());
+        gc.gridy++;
+        finalmainPanel.add(finalquitB,gc);
+
         finalmainPanel.setVisible(true);
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //setting up Panel to switch screens
@@ -110,9 +201,9 @@ private JPanel s3BasePanel = new JPanel();// switching panels
 
         //initialize main menu buttons
 
-        ungrpdB = new JButton("Ungrouped CTD.Data1");
+        ungrpdB = new JButton("Ungrouped Data");
         ungrpdB.addActionListener(new myActionListener());
-        grpdB = new JButton("Grouped CTD.Data1");
+        grpdB = new JButton("Grouped Data");
         grpdB.addActionListener(new myActionListener());
         quitB = new JButton("Quit");
         quitB.addActionListener(new myActionListener());
@@ -416,7 +507,7 @@ private JPanel s3BasePanel = new JPanel();// switching panels
         //Setting up main-panel
         s3MainPanel.setLayout(new GridBagLayout());// Grid layout for more control
 
-        title = new JLabel("Summarizing and Presenting Data3");// setting up Main Menu
+        title = new JLabel("Summarizing and Presenting Data");// setting up Main Menu
         title.setFont(new Font("Century Gothic",Font.BOLD,30));
         ctgButt = new JButton("Categorical");
         ctgButt.addActionListener(new myActionListener());
@@ -439,7 +530,7 @@ private JPanel s3BasePanel = new JPanel();// switching panels
         gc.gridy = 4;
         s3MainPanel.add(new JLabel(""),gc);
 
-        collapseOpt = new JButton("Collapse 1st and last classes");//setting up options for TableData_4
+        collapseOpt = new JButton("Collapse 1st and last classes");//setting up options for SPD.SPD.TableData_4
         collapseOpt.addActionListener(new myActionListener());
         collapseOpt2 = new JButton("Collapse 1st class");
         collapseOpt2.addActionListener(new myActionListener());
@@ -454,7 +545,7 @@ private JPanel s3BasePanel = new JPanel();// switching panels
         gc.gridy = 4;
         tableData.add(tableCollapsePanel,gc);
 
-        homeButt = new JButton("Home");
+        homeButt = new JButton("SPD: Run Again");
         homeButt.addActionListener(new myActionListener());
         tableHomePanel = new JPanel();
         gc.gridx = gc.gridy = 0;
@@ -463,11 +554,15 @@ private JPanel s3BasePanel = new JPanel();// switching panels
         tableHomePanel.add(getTableInfo2, gc);
         gc.gridx = 1;
         tableHomePanel.add(homeButt,gc);
+        SPDhome = new JButton("Home");
+        SPDhome.addActionListener(new myActionListener());
+        gc.gridx++;
+        tableHomePanel.add(SPDhome,gc);
         gc.gridx = 0;
         gc.gridy = 1;
         chartDisplay.add(tableHomePanel,gc);
 
-        getRawTableInfo = new JButton("Show Raw Data3");//setting up options for TableData_3
+        getRawTableInfo = new JButton("Show Raw Data");//setting up options for TableData_3
         getRawTableInfo.addActionListener(new myActionListener());
         gc.gridx = 0;
         gc.gridy = 4;
@@ -479,20 +574,21 @@ private JPanel s3BasePanel = new JPanel();// switching panels
         tableDataRaw.add(getTableInfo,gc);
 
         //setting up  cardLayout to switch between panels
-        s3BasePanel.setLayout(cl);
-        s3BasePanel.add(s3MainPanel,"s3MainPanel");
-        s3BasePanel.add(dataGathering,"dataGathering");
-        s3BasePanel.add(tableDataRaw,"tableDataRaw");
-        s3BasePanel.add(tableData,"tableData");
-        s3BasePanel.add(chartDisplay, "chartDisplay");
+        switchPanel.setLayout(cl);
+        switchPanel.add(s3MainPanel,"s3MainPanel");
+        switchPanel.add(finaldescPanel,"descPanelFinal");
+        switchPanel.add(finalmainPanel,"finalmainPanel_fl");
 
-        cl.show(s3BasePanel,"s3MainPanel");
+        switchPanel.add(dataGathering,"dataGathering");
+        switchPanel.add(tableDataRaw,"tableDataRaw");
+        switchPanel.add(tableData,"tableData");
+        switchPanel.add(chartDisplay, "chartDisplay");
 
-        cl.show(switchPanel, "finalmainPanel_cl");
+        cl.show(switchPanel, "descPanelFinal");
         this.add(switchPanel);
         this.setTitle("Descriptive Statistics");
         this.setVisible(true);
-        this.setSize(640,360);
+        this.setSize(768,432);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -502,12 +598,16 @@ private JPanel s3BasePanel = new JPanel();// switching panels
 
     public class myActionListener implements ActionListener{
         public void actionPerformed(ActionEvent e){
-            if(e.getSource() == finalCTD){
+            if(e.getSource() == finalquitB){
+                dispose();
+            }else if(e.getSource() == finalCTD){
                 cl.show(switchPanel, "mainPanel_cl");
             }else if(e.getSource() == finalSM){
                 cl.show(switchPanel, "mainpanel");
             }else if(e.getSource() == finalSPD){
-
+                cl.show(switchPanel, "s3MainPanel");
+            }else if(e.getSource() == miniSPcontinue){
+                cl.show(switchPanel, "finalmainPanel_fl");
             }
             else if(e.getSource() == quitB){
                 dispose();
@@ -551,6 +651,7 @@ private JPanel s3BasePanel = new JPanel();// switching panels
                 }else{
                     cl.show(switchPanel, "finalmainPanel_fl");
                 }
+
             }else if(e.getSource() == grpdB){
                 cl.show(switchPanel,"gGthrPanel_cl");
             }else if(e.getSource() == gDisp){
@@ -696,6 +797,86 @@ private JPanel s3BasePanel = new JPanel();// switching panels
                     stratDataPanel.clear();
                     stratDataDispPanel.clear();
                     cl.show(switchPanel, "finalmainPanel_fl");
+                }else if(e.getSource() == quitButt){
+                    dispose();
+                }else {
+                    if (e.getSource() == ctgButt) {
+                        dataGathering.setNumericDataType(false); // data is not numerical
+                        cl.show(switchPanel, "dataGathering");
+
+                    } else if (e.getSource() == nmrlButt) {
+                        dataGathering.setNumericDataType(true); // data is numerical
+                        cl.show(switchPanel, "dataGathering");
+                    } else if (e.getSource() == getRawTableInfo) {
+                        if (dataGathering.checkData()) {// checks if input follows chosen category
+                            data = dataGathering.getData();
+                            System.out.println("it got new data");
+                            for (int i = 0; i < data.getCategoriesLength(); i++) {
+                                System.out.println(data.getData()[i]);
+                            }
+                            System.out.println("title is" + data.getBriefTitle());
+                            tableDataRaw.updateData(data);
+                            cl.show(switchPanel, "tableDataRaw");
+                        }
+                    } else if (e.getSource() == getTableInfo || e.getSource() == getTableInfo2) {
+                        if (dataGathering.checkData()) {// checks if input follows chosen category
+                            if (e.getSource() == getTableInfo) {
+                                data = dataGathering.getData();
+                                tableData.updateData(data);
+                                GridBagConstraints gc = new GridBagConstraints();
+                                if (data.getIsNumericDataType()) {
+                                    gc.gridy = gc.gridx = 0;
+                                    tableCollapsePanel.add(collapseOpt, gc);
+                                    tableCollapsePanel.add(collapseOpt2, gc);
+                                    tableCollapsePanel.add(collapseOpt3, gc);
+                                }
+                            }
+                            cl.show(switchPanel, "tableData");
+                        }
+                    } else if (e.getSource() == collapseOpt) {
+                        tableData.collapse(data, 1);
+                    } else if (e.getSource() == collapseOpt2) {
+                  /*  tableData.collapse();
+                    cl.show(switchPanel,)*/
+                        tableData.collapse(data, 2);
+                    } else if (e.getSource() == collapseOpt3) {
+                  /*  tableData.collapse();
+                    cl.show(switchPanel,)*/
+                        tableData.collapse(data, 3);
+                    } else if (e.getSource() == showGraphOpt) {
+                        Object[] options = {"Yes", //show options whether to show Graph or not
+                                "No"};
+                        int n = JOptionPane.showOptionDialog(new JFrame(),
+                                "Would you like the Graph to be shown?",
+                                "Graph",
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.QUESTION_MESSAGE,
+                                null,
+                                options, null);
+                        if (n == 0) {
+                            chartDisplay.getData(data);
+                            chartDisplay.setNiBack(true);
+                            cl.show(switchPanel, "chartDisplay");
+                        } else {
+                            dataGathering.erase();
+                            tableDataRaw.erase();
+                            tableData.erase();
+                            chartDisplay.erase();
+                            cl.show(switchPanel, "s3MainPanel");
+                        }
+                    } else if (e.getSource() == homeButt) {
+                        dataGathering.erase();
+                        tableDataRaw.erase();
+                        tableData.erase();
+                        chartDisplay.erase();
+                        cl.show(switchPanel, "s3MainPanel");
+                    } else if (e.getSource() == SPDhome) {
+                        dataGathering.erase();
+                        tableDataRaw.erase();
+                        tableData.erase();
+                        chartDisplay.erase();
+                        cl.show(switchPanel, "finalmainPanel_fl");
+                    }
                 }
             }
         }

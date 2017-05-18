@@ -1,3 +1,5 @@
+package SPD;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -82,7 +84,7 @@ public class DataGathering_2 extends JPanel{
                 if(!isNumeric(dataStrArr[i])){ // checks if it is all numbers
                     JOptionPane.showMessageDialog(this,
                             "You have selected numerical data type",
-                            "Wrong Data3 Type",
+                            "Wrong data Type",
                             JOptionPane.ERROR_MESSAGE);
                     return false;
                 }
@@ -90,7 +92,7 @@ public class DataGathering_2 extends JPanel{
                 if(isNotAllLetters(dataStrArr[i])){ // checks if it is all letters
                     JOptionPane.showMessageDialog(this,
                             "You have selected categorical data type",
-                            "Wrong Data3 Type",
+                            "Wrong data Type",
                             JOptionPane.ERROR_MESSAGE);
                     return false;
                 }

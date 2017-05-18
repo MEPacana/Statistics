@@ -2,6 +2,10 @@
  * Created by Michael Pacana and Noah Silvio on 4/26/2017.
  */
 import CTD.*;
+import SM.Data2;
+import SM.DataDisplay;
+import SM.DataGathering;
+import SM.InitData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +38,6 @@ public class FinalMain_1 extends JFrame{
     private GChoiceData_4c gChoicePanel = new GChoiceData_4c();
     private GResults_4d gResultsPanel = new GResults_4d();
 
-
     private JButton ungrpdB, grpdB,
             udispB,
             uCont, uEdit,
@@ -45,27 +48,37 @@ public class FinalMain_1 extends JFrame{
         gDone, gEdit, gContinue,
             gMeanB, gMedianB, gModeB, gAllB,
             gInpIntpn, gExecRun;
-    String[] cmboStr = {"same data1","new set"};
+    String[] cmboStr = {"CTD: Same Data","CTD: New Set","HOME"};
     private CardLayout cl = new CardLayout();
     JComboBox balik = new JComboBox(cmboStr);
     JComboBox gBalik = new JComboBox(cmboStr);
     Data1 data1 = new Data1();
 /////////////////////////////////////////////////////// Sampling Methods ////////////////////////////////////////////////////////////////////
-
-/*
     private JPanel mainPanelSM = new JPanel();
-    private JPanel basePanel = new JPanel();
     private JButton sysSampButton, simpRandSampButton, stratSampButton, quit,
-            simRandGetInitParam, simRandGetData,home1,
-            sysGetInitParam, sysGetData,home2,
-            stratGetInitParam, stratGetData,home3;
+            simRandGetInitParam, simRandGetData,home1,fhome1,
+            sysGetInitParam, sysGetData,home2,fhome2,
+            stratGetInitParam, stratGetData,home3, fhome3;
     private InitData simRandPanel,sysPanel,stratPanel;
     private DataGathering simRandDataPanel,sysDataPanel,stratDataPanel;
     private DataDisplay simRandDataDispPanel, sysDataDispPanel, stratDataDispPanel;
-
     private Data2 data2;
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-*/
+/////////////////////////////////////////////////////// Summarizing and Presenting Data ///////////////////////////////////////////////////
+private JPanel s3BasePanel = new JPanel();// switching panels
+    private JPanel s3MainPanel = new JPanel();// s3MainPanel for Switch
+    private JPanel tableCollapsePanel = new JPanel();
+    private JPanel tableHomePanel = new JPanel();
+    private JLabel title; // s3MainPanel title
+    private JButton ctgButt, nmrlButt, quitButt,
+            getTableInfo,getTableInfo2, getRawTableInfo,
+            collapseOpt, collapseOpt2, collapseOpt3, showGraphOpt, homeButt;// s3MainPanel buttons
+    private ChartDisplay_05 chartDisplay = new ChartDisplay_05();
+
+    private DataGathering_2 dataGathering = new DataGathering_2();
+    Data3 data;
+    private TableData_4 tableData = new TableData_4();
+    private TableDataRaw_3 tableDataRaw = new TableDataRaw_3();
+
 
     public FinalMain_1(){
         GridBagConstraints gc = new GridBagConstraints();
@@ -255,6 +268,7 @@ public class FinalMain_1 extends JFrame{
         gResultsPanel.add(gResultsRedoPanel,gc);
 
         switchPanel.add(finalmainPanel,"finalmainPanel_fl");
+
         switchPanel.add(mainPanel,"mainPanel_cl");
         switchPanel.add(uDataPanel,"uDataPanel_cl");
         switchPanel.add(uDispPanel,"uDispPanel_cl");
@@ -265,6 +279,214 @@ public class FinalMain_1 extends JFrame{
         switchPanel.add(gDispPanel,"gDispPanel_cl");
         switchPanel.add(gChoicePanel,"gChoicePanel_cl");
         switchPanel.add(gResultsPanel, "gResultsPanel_cl");
+///////////////////////////////////////////////////Sampling Methods///////////////////////////////////////////////////////////////////////////////////
+        //Instead of initializing frame, we extend frame and use this. We use container c to adjust Pane
+        //using Grid Bag type layout for more control
+        mainPanelSM.setLayout( new GridBagLayout());
+        //adding components
+        JLabel title = new JLabel("Random Sampling Techniques");
+        title.setFont(new Font("Century Gothic",Font.BOLD,30));
+
+        //initializing the simple random panel with its components
+        simpRandSampButton = new JButton("Simple Random Samping");
+        simpRandSampButton.addActionListener(new myActionListener());
+
+        simRandPanel = new InitData(1);
+        simRandGetInitParam = new JButton("Continue to SM.Data2");
+        simRandGetInitParam.addActionListener(new myActionListener());
+        gc.weighty = 0.3;
+        gc.gridy = 5;
+        simRandPanel.add(simRandGetInitParam,gc);
+
+        simRandDataPanel = new DataGathering(1);
+        simRandGetData = new JButton(" Continue to Display");
+        simRandGetData.addActionListener(new myActionListener());
+        gc.weighty = .3;
+        gc.gridy = 10;
+        simRandDataPanel.add(simRandGetData,gc);
+
+        simRandDataDispPanel = new DataDisplay(1);
+        home1 = new JButton("ST: Run Again");
+        home1.addActionListener(new myActionListener());
+        simRandDataDispPanel.add(home1,gc);
+        fhome1 = new JButton("Home");
+        fhome1.addActionListener(new myActionListener());
+        gc.gridy++;
+        simRandDataDispPanel.add(fhome1,gc);
+////////////////////////////////////////////////// S Y S T E M A T I C///////////////////////////////////////////////////////////////////////////////////
+        //initializing the systematic panel with its components
+        sysSampButton = new JButton("Systematic Sampling");
+        sysSampButton.addActionListener(new myActionListener());
+
+        sysPanel = new InitData(2);
+        sysGetInitParam = new JButton("Continue to SM.Data2");
+        sysGetInitParam.addActionListener(new myActionListener());
+        gc.weighty = 0.3;
+        gc.gridy = 5;
+        sysPanel.add(sysGetInitParam,gc);
+
+        sysDataPanel = new DataGathering(2);
+        sysGetData = new JButton(" Continue to Display");
+        sysGetData.addActionListener(new myActionListener());
+        gc.weighty = .3;
+        gc.gridy = 10;
+        sysDataPanel.add(sysGetData,gc);
+
+        sysDataDispPanel = new DataDisplay(2);
+        home2 = new JButton("ST: Run Again");
+        home2.addActionListener(new myActionListener());
+        sysDataDispPanel.add(home2,gc);
+        fhome2 = new JButton("Home");
+        fhome2.addActionListener(new myActionListener());
+        gc.gridy++;
+        sysDataDispPanel.add(fhome2,gc);
+/////////////////////////////////////////////////// S T R A T I F I E D /////////////////////////////////////////////////////////////////////////////////////////////
+        //initializing the stratified panel with its components
+        stratSampButton = new JButton("Stratified Sampling");
+        stratSampButton.addActionListener(new myActionListener());
+
+        stratPanel = new InitData(3);
+        stratGetInitParam = new JButton("Continue to SM.Data2");
+        stratGetInitParam.addActionListener(new myActionListener());
+        gc.weighty = 0.3;
+        gc.gridy = 5;
+        stratPanel.add(stratGetInitParam,gc);
+
+        stratDataPanel = new DataGathering(3);
+        stratGetData = new JButton(" Continue to Display");
+        stratGetData.addActionListener(new myActionListener());
+        gc.weighty = .3;
+        gc.gridy = 10;
+        stratDataPanel.add(stratGetData,gc);
+
+        stratDataDispPanel = new DataDisplay(3);
+        home3 = new JButton("ST: Run Again");
+        home3.addActionListener(new myActionListener());
+        stratDataDispPanel.add(home3,gc);
+        fhome3 = new JButton("Home");
+        fhome3.addActionListener(new myActionListener());
+        gc.gridy++;
+        stratDataDispPanel.add(fhome3,gc);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        quit = new JButton("Quit");
+        quit.addActionListener(new myActionListener());
+
+        //weight to adjust spacing and grid for placement
+        gc.weighty = 0.5;
+        gc.weightx= 1;
+        //placement because of gridlayout
+        gc.gridx = gc.gridy = 0;
+        mainPanelSM.add(title,gc);
+
+        gc.weighty = 0.2;
+        gc.gridx = 0;
+        gc.gridy = 1;
+        mainPanelSM.add(simpRandSampButton,gc);
+
+        gc.gridx = 0;
+        gc.gridy = 3;
+        mainPanelSM.add(sysSampButton,gc);
+
+        gc.gridx = 0;
+        gc.gridy = 4;
+        mainPanelSM.add(stratSampButton,gc);
+
+        gc.gridx = 0;
+        gc.gridy = 5;
+        mainPanelSM.add(quit,gc);
+
+        switchPanel.setLayout(cl);
+        switchPanel.add(mainPanelSM,"mainpanel");
+        switchPanel.add(simRandPanel,"simRandPanel");
+        switchPanel.add(simRandDataPanel,"simRandDataPanel");
+        switchPanel.add(simRandDataDispPanel,"simRandDataDispPanel");
+
+        switchPanel.add(sysPanel,"sysPanel");
+        switchPanel.add(sysDataPanel,"sysDataPanel");
+        switchPanel.add(sysDataDispPanel,"sysDataDispPanel");
+
+        switchPanel.add(stratPanel,"stratPanel");
+        switchPanel.add(stratDataPanel,"stratDataPanel");
+        switchPanel.add(stratDataDispPanel,"stratDataDispPanel");
+////////////////////////////////////////////Presenting Data//////////////////////////////////////////////////////
+
+
+        Container cp = getContentPane();
+
+        //Setting up main-panel
+        s3MainPanel.setLayout(new GridBagLayout());// Grid layout for more control
+
+        title = new JLabel("Summarizing and Presenting Data3");// setting up Main Menu
+        title.setFont(new Font("Century Gothic",Font.BOLD,30));
+        ctgButt = new JButton("Categorical");
+        ctgButt.addActionListener(new myActionListener());
+        nmrlButt = new JButton("Numerical");
+        nmrlButt.addActionListener(new myActionListener());
+        quitButt =new JButton("Quit");
+        quitButt.addActionListener(new myActionListener());
+        gc.weighty = 1;
+        gc.gridy = 0;
+        gc.gridx = 0;
+        s3MainPanel.add(title,gc);
+        gc.weighty = 0.3;
+        gc.gridy = 1;
+        s3MainPanel.add(ctgButt,gc);
+        gc.gridy = 2;
+        s3MainPanel.add(nmrlButt,gc);
+        gc.gridy = 3;
+        s3MainPanel.add(quitButt,gc);
+        gc.weighty = 0.5;
+        gc.gridy = 4;
+        s3MainPanel.add(new JLabel(""),gc);
+
+        collapseOpt = new JButton("Collapse 1st and last classes");//setting up options for TableData_4
+        collapseOpt.addActionListener(new myActionListener());
+        collapseOpt2 = new JButton("Collapse 1st class");
+        collapseOpt2.addActionListener(new myActionListener());
+        collapseOpt3 = new JButton("Collapse last class");
+        collapseOpt3.addActionListener(new myActionListener());
+
+        showGraphOpt = new JButton("Show Graph");
+        showGraphOpt.addActionListener(new myActionListener());
+        gc.gridx = 0;
+        tableCollapsePanel.add(showGraphOpt, gc);
+        gc.gridx = 0;
+        gc.gridy = 4;
+        tableData.add(tableCollapsePanel,gc);
+
+        homeButt = new JButton("Home");
+        homeButt.addActionListener(new myActionListener());
+        tableHomePanel = new JPanel();
+        gc.gridx = gc.gridy = 0;
+        getTableInfo2 = new JButton("Show Table");
+        getTableInfo2.addActionListener(new myActionListener());
+        tableHomePanel.add(getTableInfo2, gc);
+        gc.gridx = 1;
+        tableHomePanel.add(homeButt,gc);
+        gc.gridx = 0;
+        gc.gridy = 1;
+        chartDisplay.add(tableHomePanel,gc);
+
+        getRawTableInfo = new JButton("Show Raw Data3");//setting up options for TableData_3
+        getRawTableInfo.addActionListener(new myActionListener());
+        gc.gridx = 0;
+        gc.gridy = 4;
+        dataGathering.add(getRawTableInfo,gc);
+
+        gc.gridy = 2;//setting up  TableData_3
+        getTableInfo = new JButton("Show Table");
+        getTableInfo.addActionListener(new myActionListener());
+        tableDataRaw.add(getTableInfo,gc);
+
+        //setting up  cardLayout to switch between panels
+        s3BasePanel.setLayout(cl);
+        s3BasePanel.add(s3MainPanel,"s3MainPanel");
+        s3BasePanel.add(dataGathering,"dataGathering");
+        s3BasePanel.add(tableDataRaw,"tableDataRaw");
+        s3BasePanel.add(tableData,"tableData");
+        s3BasePanel.add(chartDisplay, "chartDisplay");
+
+        cl.show(s3BasePanel,"s3MainPanel");
 
         cl.show(switchPanel, "finalmainPanel_cl");
         this.add(switchPanel);
@@ -272,8 +494,6 @@ public class FinalMain_1 extends JFrame{
         this.setVisible(true);
         this.setSize(640,360);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     public void redraw(){
@@ -283,10 +503,9 @@ public class FinalMain_1 extends JFrame{
     public class myActionListener implements ActionListener{
         public void actionPerformed(ActionEvent e){
             if(e.getSource() == finalCTD){
-                System.out.println("nisud");
                 cl.show(switchPanel, "mainPanel_cl");
             }else if(e.getSource() == finalSM){
-
+                cl.show(switchPanel, "mainpanel");
             }else if(e.getSource() == finalSPD){
 
             }
@@ -325,10 +544,12 @@ public class FinalMain_1 extends JFrame{
                     System.out.println("nisud");
                 if (balik.getSelectedIndex() == 0) {
                     cl.show(switchPanel, "uChoicePanel_cl");
-                } else {
+                } else if(balik.getSelectedIndex() == 1){
                     cl.show(switchPanel, "mainPanel_cl");
                     uDataPanel.erase();
                     uDispPanel.erase();
+                }else{
+                    cl.show(switchPanel, "finalmainPanel_fl");
                 }
             }else if(e.getSource() == grpdB){
                 cl.show(switchPanel,"gGthrPanel_cl");
@@ -385,10 +606,97 @@ public class FinalMain_1 extends JFrame{
             }else if(e.getSource() == gExecRun){
                 if (gBalik.getSelectedIndex() == 0) {
                     cl.show(switchPanel, "gChoicePanel_cl");
-                } else {
+                } else if(gBalik.getSelectedIndex() == 1){
                     cl.show(switchPanel, "mainPanel_cl");
+                } else{
+                    cl.show(switchPanel, "finalmainPanel_fl");
                 }
                 gResultsPanel.removeTextArea();
+            } else if(e.getSource() == quit){
+                //quit program
+                dispose();
+            }
+            else {
+                if (e.getSource() == simpRandSampButton) {
+                    //create new class that extend JPanel
+                    cl.show(switchPanel, "simRandPanel");
+                } else if (e.getSource() == simRandGetInitParam && simRandPanel.check()) {
+                    data2 = simRandPanel.getData();
+                    cl.show(switchPanel, "simRandDataPanel");
+                } else if (e.getSource() == simRandGetData && simRandDataPanel.check(data2)) {
+                    data2 = simRandDataPanel.getData(data2);
+                    data2.process();
+                    simRandDataDispPanel.display(data2);
+                    cl.show(switchPanel, "simRandDataDispPanel");
+                } else if (e.getSource() == home1) {
+                    data2.clear();
+                    simRandPanel.clear();
+                    simRandPanel.clear();
+                    simRandDataPanel.clear();
+                    simRandDataDispPanel.clear();
+                    cl.show(switchPanel, "mainpanel");
+                }else if (e.getSource() == fhome1) {
+                    data2.clear();
+                    simRandPanel.clear();
+                    simRandPanel.clear();
+                    simRandDataPanel.clear();
+                    simRandDataDispPanel.clear();
+                    cl.show(switchPanel, "finalmainPanel_fl");
+                }
+                ///////////////////////////////////////////////////////////////////
+                if (e.getSource() == sysSampButton) {
+                    //create new class that extend JPanel
+                    cl.show(switchPanel, "sysPanel");
+                } else if (e.getSource() == sysGetInitParam && sysPanel.check()) {
+                    data2 = sysPanel.getData();
+                    cl.show(switchPanel, "sysDataPanel");
+                } else if (e.getSource() == sysGetData && sysDataPanel.check(data2)) {
+                    data2 = sysDataPanel.getData(data2);
+                    data2.process();
+                    sysDataDispPanel.display(data2);
+                    cl.show(switchPanel, "sysDataDispPanel");
+                } else if (e.getSource() == home2) {
+                    cl.show(switchPanel, "mainpanel");
+                    data2.clear();
+                    sysPanel.clear();
+                    sysPanel.clear();
+                    sysDataPanel.clear();
+                    sysDataDispPanel.clear();
+                } else if (e.getSource() == fhome2) {
+                    data2.clear();
+                    sysPanel.clear();
+                    sysPanel.clear();
+                    sysDataPanel.clear();
+                    sysDataDispPanel.clear();
+                    cl.show(switchPanel, "finalmainPanel_fl");
+                }////////////////////////////////////////////////////////
+                if (e.getSource() == stratSampButton) {
+                    //create new class that extend JPanel
+                    cl.show(switchPanel, "stratPanel");
+                } else if (e.getSource() == stratGetInitParam && stratPanel.check()) {
+                    data2 = stratPanel.getData();
+                    data2 = stratPanel.getData();
+                    cl.show(switchPanel, "stratDataPanel");
+                } else if (e.getSource() == stratGetData && stratDataPanel.check(data2)) {
+                    data2 = stratDataPanel.getData(data2);
+                    data2.process();
+                    stratDataDispPanel.display(data2);
+                    cl.show(switchPanel, "stratDataDispPanel");
+                } else if (e.getSource() == home3) {
+                    cl.show(switchPanel, "mainpanel");
+                    data2.clear();
+                    stratPanel.clear();
+                    stratPanel.clear();
+                    stratDataPanel.clear();
+                    stratDataDispPanel.clear();
+                } else if (e.getSource() == fhome3) {
+                    data2.clear();
+                    stratPanel.clear();
+                    stratPanel.clear();
+                    stratDataPanel.clear();
+                    stratDataDispPanel.clear();
+                    cl.show(switchPanel, "finalmainPanel_fl");
+                }
             }
         }
     }

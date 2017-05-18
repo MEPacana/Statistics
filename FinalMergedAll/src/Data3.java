@@ -4,18 +4,17 @@
 */
 import java.util.Arrays;
 import java.util.Vector;
-import java.util.concurrent.atomic.DoubleAccumulator;
 
-public class Data {
+public class Data3 {
     private String[] rawData;
     private String briefTitle;
     private boolean isNumericDataType; // true = numerical, false = categorical
     private String[][] addtlData;
     private int rowNum;
-    //TableValues for Numerical Data
+    //TableValues for Numerical Data3
     private Vector<Integer> frequency, cFrequency;
     private Vector<Double> lowerClassLimit, upperClassLimit, trueLowerClassLimit, trueUpperClassLimit, midpoints, classPercentage, cClassPercentage;
-    //TableValues for Categorical Data
+    //TableValues for Categorical Data3
     private Vector<String> categories;
     private Vector<Integer> categoryCount;
     private Vector<Double>  categoryPercentage;
@@ -34,15 +33,15 @@ public class Data {
     double classWidth;
     double range, numberOfClasses;
 
-    public Data() {
+    public Data3() {
         rawData = new String[]{"0","1"};
         briefTitle = "adasd";
         isNumericDataType = false;
         addtlData = new String[][]{{"0","1"},{"1","0"}};
         rowNum = 2;
     }
-    public Data(String[] rawData, String briefTitle, boolean isNumericDataType) {
-        //for Numerical Data
+    public Data3(String[] rawData, String briefTitle, boolean isNumericDataType) {
+        //for Numerical Data3
         lowerClassLimit = new Vector<>();
         upperClassLimit = new Vector<>();
         frequency =  new Vector<>();
@@ -54,7 +53,7 @@ public class Data {
         trueUpperClassLimit = new Vector<>();
         midpoints = new Vector<>();
 
-        //for Categorical Data
+        //for Categorical Data3
         categories = new Vector<>();
         categoryCount = new Vector<>();
         categoryPercentage = new Vector<>();

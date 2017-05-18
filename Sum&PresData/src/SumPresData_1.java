@@ -2,25 +2,24 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Objects;
 
 /**
  * Created by Michael Pacana and Noah Silvio on 3/19/2017.
  */
 public class SumPresData_1 extends JFrame {
-    private JPanel basePanel = new JPanel();// switching panels
-    private JPanel mainPanel = new JPanel();// mainPanel for Switch
+    private JPanel s3BasePanel = new JPanel();// switching panels
+    private JPanel s3MainPanel = new JPanel();// s3MainPanel for Switch
     private JPanel tableCollapsePanel = new JPanel();
     private JPanel tableHomePanel = new JPanel();
-    private JLabel title; // mainPanel title
+    private JLabel title; // s3MainPanel title
     private JButton ctgButt, nmrlButt, quitButt,
             getTableInfo,getTableInfo2, getRawTableInfo,
-            collapseOpt, collapseOpt2, collapseOpt3, showGraphOpt, homeButt;// mainPanel buttons
+            collapseOpt, collapseOpt2, collapseOpt3, showGraphOpt, homeButt;// s3MainPanel buttons
     private CardLayout cl = new CardLayout();//Layout to change screens
     private ChartDisplay_05 chartDisplay = new ChartDisplay_05();
 
     private DataGathering_2 dataGathering = new DataGathering_2();
-    Data data;
+    Data3 data;
     private TableData_4 tableData = new TableData_4();
     private TableDataRaw_3 tableDataRaw = new TableDataRaw_3();
 
@@ -28,10 +27,10 @@ public class SumPresData_1 extends JFrame {
         Container cp = getContentPane();
 
         //Setting up main-panel
-        mainPanel.setLayout(new GridBagLayout());// Grid layout for more control
+        s3MainPanel.setLayout(new GridBagLayout());// Grid layout for more control
         GridBagConstraints gc = new GridBagConstraints();
 
-        title = new JLabel("Summarizing and Presenting Data");// setting up Main Menu
+        title = new JLabel("Summarizing and Presenting Data3");// setting up Main Menu
         title.setFont(new Font("Century Gothic",Font.BOLD,30));
         ctgButt = new JButton("Categorical");
         ctgButt.addActionListener(new myActionListener());
@@ -42,17 +41,17 @@ public class SumPresData_1 extends JFrame {
         gc.weighty = 1;
         gc.gridy = 0;
         gc.gridx = 0;
-        mainPanel.add(title,gc);
+        s3MainPanel.add(title,gc);
         gc.weighty = 0.3;
         gc.gridy = 1;
-        mainPanel.add(ctgButt,gc);
+        s3MainPanel.add(ctgButt,gc);
         gc.gridy = 2;
-        mainPanel.add(nmrlButt,gc);
+        s3MainPanel.add(nmrlButt,gc);
         gc.gridy = 3;
-        mainPanel.add(quitButt,gc);
+        s3MainPanel.add(quitButt,gc);
         gc.weighty = 0.5;
         gc.gridy = 4;
-        mainPanel.add(new JLabel(""),gc);
+        s3MainPanel.add(new JLabel(""),gc);
 
         collapseOpt = new JButton("Collapse 1st and last classes");//setting up options for TableData_4
         collapseOpt.addActionListener(new myActionListener());
@@ -82,7 +81,7 @@ public class SumPresData_1 extends JFrame {
         gc.gridy = 1;
         chartDisplay.add(tableHomePanel,gc);
 
-        getRawTableInfo = new JButton("Show Raw Data");//setting up options for TableData_3
+        getRawTableInfo = new JButton("Show Raw Data3");//setting up options for TableData_3
         getRawTableInfo.addActionListener(new myActionListener());
         gc.gridx = 0;
         gc.gridy = 4;
@@ -94,17 +93,17 @@ public class SumPresData_1 extends JFrame {
         tableDataRaw.add(getTableInfo,gc);
 
         //setting up  cardLayout to switch between panels
-        basePanel.setLayout(cl);
-        basePanel.add(mainPanel,"mainPanel");
-        basePanel.add(dataGathering,"dataGathering");
-        basePanel.add(tableDataRaw,"tableDataRaw");
-        basePanel.add(tableData,"tableData");
-        basePanel.add(chartDisplay, "chartDisplay");
+        s3BasePanel.setLayout(cl);
+        s3BasePanel.add(s3MainPanel,"s3MainPanel");
+        s3BasePanel.add(dataGathering,"dataGathering");
+        s3BasePanel.add(tableDataRaw,"tableDataRaw");
+        s3BasePanel.add(tableData,"tableData");
+        s3BasePanel.add(chartDisplay, "chartDisplay");
 
-        cl.show(basePanel,"mainPanel");
+        cl.show(s3BasePanel,"s3MainPanel");
 
-        setTitle("Summarizing and Presenting Data");
-        add(basePanel);
+        setTitle("Summarizing and Presenting Data3");
+        add(s3BasePanel);
         setVisible(true);
         setSize(640,360);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -117,11 +116,11 @@ public class SumPresData_1 extends JFrame {
             }else {
                 if (e.getSource() == ctgButt) {
                     dataGathering.setNumericDataType(false); // data is not numerical
-                    cl.show(basePanel,"dataGathering");
+                    cl.show(s3BasePanel,"dataGathering");
 
                 } else if (e.getSource() == nmrlButt) {
                     dataGathering.setNumericDataType(true); // data is numerical
-                    cl.show(basePanel,"dataGathering");
+                    cl.show(s3BasePanel,"dataGathering");
                 }
                 else if(e.getSource() == getRawTableInfo){
                     if(dataGathering.checkData()){// checks if input follows chosen category
@@ -132,7 +131,7 @@ public class SumPresData_1 extends JFrame {
                         }
                         System.out.println("title is"+ data.getBriefTitle());
                         tableDataRaw.updateData(data);
-                        cl.show(basePanel,"tableDataRaw");
+                        cl.show(s3BasePanel,"tableDataRaw");
                     }
                 }
                 else if(e.getSource() == getTableInfo || e.getSource() == getTableInfo2){
@@ -148,22 +147,22 @@ public class SumPresData_1 extends JFrame {
                                 tableCollapsePanel.add(collapseOpt3, gc);
                             }
                         }
-                        cl.show(basePanel,"tableData");
+                        cl.show(s3BasePanel,"tableData");
                     }
                 }
                 else if(e.getSource() == collapseOpt){
                   /*  tableData.collapse();
-                    cl.show(basePanel,)*/
+                    cl.show(s3BasePanel,)*/
                     tableData.collapse(data, 1);
                 }
                 else if(e.getSource() == collapseOpt2){
                   /*  tableData.collapse();
-                    cl.show(basePanel,)*/
+                    cl.show(s3BasePanel,)*/
                     tableData.collapse(data, 2);
                 }
                 else if(e.getSource() == collapseOpt3){
                   /*  tableData.collapse();
-                    cl.show(basePanel,)*/
+                    cl.show(s3BasePanel,)*/
                     tableData.collapse(data, 3);
                 }
                 else if(e.getSource() == showGraphOpt ){
@@ -179,13 +178,13 @@ public class SumPresData_1 extends JFrame {
                     if(n == 0){
                         chartDisplay.getData(data);
                         chartDisplay.setNiBack(true);
-                        cl.show(basePanel,"chartDisplay");
+                        cl.show(s3BasePanel,"chartDisplay");
                     }else{
                         dataGathering.erase();
                         tableDataRaw.erase();
                         tableData.erase();
                         chartDisplay.erase();
-                        cl.show(basePanel,"mainPanel");
+                        cl.show(s3BasePanel,"s3MainPanel");
                     }
                 }
                 else if(e.getSource() == homeButt){
@@ -193,7 +192,7 @@ public class SumPresData_1 extends JFrame {
                     tableDataRaw.erase();
                     tableData.erase();
                     chartDisplay.erase();
-                    cl.show(basePanel,"mainPanel");
+                    cl.show(s3BasePanel,"s3MainPanel");
                 }
             }
         }

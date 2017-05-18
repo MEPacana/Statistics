@@ -29,11 +29,11 @@ public class ChartDisplay_05 extends JPanel {
         setVisible(true);
     }
     public void getData(Data3 data){
-         if (data.getIsNumericDataType()) {
-                getNumericData(data);
-         } else {
-             getCategoricalData(data);
-         }
+        if (data.getIsNumericDataType()) {
+            getNumericData(data);
+        } else {
+            getCategoricalData(data);
+        }
     }
 
     public void getNumericData( Data3 data) {

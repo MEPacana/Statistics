@@ -6,8 +6,14 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 public class BasicSamplingMethodsApp extends JFrame{
+    private JLabel finalTitle = new JLabel("Mini-Statistical Package (Mini-SP)");
+    private JLabel finalbriefDescription = new JLabel("Description");
+    private JLabel finalInstructions = new JLabel("Press Any Key to Continue");
+    private JLabel finalName1 = new JLabel("Michael Ervin B. Pacana");
+    private JLabel finalName2 = new JLabel("Noah Dominic Silvio");
 
     private JPanel mainPanelSM = new JPanel();
+    private JPanel finalFirstPanelSM = new JPanel();
     private JPanel switchPanel = new JPanel();
     private JButton sysSampButton, simpRandSampButton, stratSampButton, quit,
             simRandGetInitParam, simRandGetData,home1,
@@ -22,6 +28,7 @@ public class BasicSamplingMethodsApp extends JFrame{
         //Instead of initializing frame, we extend frame and use this. We use container c to adjust Pane
         //using Grid Bag type layout for more control
         mainPanelSM.setLayout( new GridBagLayout());
+        finalFirstPanelSM.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
 
         //adding components
@@ -48,7 +55,7 @@ public class BasicSamplingMethodsApp extends JFrame{
         simRandDataPanel.add(simRandGetData,gc);
 
         simRandDataDispPanel = new DataDisplay(1);
-        home1 = new JButton("Home");
+        home1 = new JButton("Sampling Techniques: Another Run");
         home1.addActionListener(new myActionListener());
         simRandDataDispPanel.add(home1,gc);
 ////////////////////////////////////////////////// S Y S T E M A T I C///////////////////////////////////////////////////////////////////////////////////
@@ -78,7 +85,7 @@ public class BasicSamplingMethodsApp extends JFrame{
         //initializing the stratified panel with its components
         stratSampButton = new JButton("Stratified Sampling");
         stratSampButton.addActionListener(new myActionListener());
-        
+
         stratPanel = new InitData(3);
         stratGetInitParam = new JButton("Continue to Data2");
         stratGetInitParam.addActionListener(new myActionListener());
